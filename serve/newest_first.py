@@ -11,7 +11,13 @@ Used with: --scheduling-policy priority --middleware newest_first.NewestFirst
 Organizers confirmed on Discord (Oct 24) that server-side request prioritization is allowed.
 """
 import json
+import os
 import time
+
+# EXPERIMENT, OFF BY DEFAULT and NOT in any submitted config: cap reasoning at N tokens via vLLM's
+# thinking_token_budget. Changes how the model thinks, which the grader fixes — use only with written
+# organizer approval.
+THINK_BUDGET = int(os.environ.get("THINK_BUDGET", "0"))
 
 
 class NewestFirst:
@@ -31,6 +37,8 @@ class NewestFirst:
         try:
             req = json.loads(body)
             req["priority"] = -(time.monotonic_ns() // 1_000_000)  # newer arrival -> lower value
+            if THINK_BUDGET > 0 and req.get("thinking_token_budget") is None:
+                req["thinking_token_budget"] = THINK_BUDGET
             body = json.dumps(req).encode()
             scope = dict(scope, headers=[(k, v) for k, v in scope["headers"] if k != b"content-length"]
                          + [(b"content-length", str(len(body)).encode())])

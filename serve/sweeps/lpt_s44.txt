@@ -1,0 +1,12 @@
+# Long-prefill threshold at 44 seqs, 8192 budget, with and without async scheduling (vLLM #60476:
+# async look-ahead commits uncapped chunks before the threshold sees new arrivals). Then finer hybrid
+# prefix caching. Baseline rep-s44 (8192, async on): 169-172 on time, ~261 mJ/token, TPOT p95 40-45
+lpt4k-s44-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=4096
+lpt4k-noasync-s44-r1  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=4096 ASYNC=0
+pu32-s44-r1           awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest PREFIX_UNIT=32 MAMBA_CKPT=1
+lpt2k-noasync-s44-r1  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0
+lpt2k-s44-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048
+pu32-s44-r2           awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest PREFIX_UNIT=32 MAMBA_CKPT=1
+lpt4k-noasync-s44-r2  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=4096 ASYNC=0
+lpt2k-noasync-s44-r2  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0
+best44-restore2       awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest

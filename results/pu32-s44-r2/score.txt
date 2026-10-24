@@ -1,0 +1,12 @@
+run: results/pu32-s44-r2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.767   0.800   0.958
+rag         60   1.000   1.000   1.000
+agentic     60   0.850   0.850   1.000
+reasoning   45   0.978   0.956   1.023
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 152/364  errors 0  cut-off 9  joules 86920  avg W 334  avg out tok 925  mJ/token 258.3
+p95 TTFT/SLO 260.64  p95 TPOT 41.5 ms  sL 0.062  sT 0.327
+R 0.998  class_factor 1.000  A 1.000  |  efficiency 9.07x baseline  sE 1.000
+==> estimated S = 45.8

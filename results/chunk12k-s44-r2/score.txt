@@ -1,0 +1,12 @@
+run: results/chunk12k-s44-r2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.767   0.800   0.958
+rag         60   1.000   1.000   1.000
+agentic     60   0.833   0.850   0.980
+reasoning   45   1.000   0.956   1.047
+thai        30   0.867   0.900   0.963
+long        15   1.000   1.000   1.000
+on-time 164/363  errors 0  cut-off 8  joules 85824  avg W 341  avg out tok 916  mJ/token 258.1
+p95 TTFT/SLO 244.70  p95 TPOT 41.8 ms  sL 0.064  sT 0.338
+R 0.993  class_factor 1.000  A 1.000  |  efficiency 9.91x baseline  sE 1.000
+==> estimated S = 46.5

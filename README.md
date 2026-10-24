@@ -10,7 +10,7 @@ No derived weights were created.
 
 ## Result
 
-**Best Final score: S = 40.9** (1.94x the baseline's on-time answers per joule, 172 J/request, accuracy factor 1.00).
+**Best Final score: S = 41.7** (191/300 requests on time, 1.89x the baseline's on-time answers per joule, accuracy factor 1.00).
 
 Every grader **Final** submission (300 requests), in order:
 
@@ -23,12 +23,16 @@ Every grader **Final** submission (300 requests), in order:
 | 4 | #3 + prefill chunk 16384 | 29.0 | 0.95 | 0.40 | 0.38 | 0.11 | 1.56x | 214 | 50.0 s | 44 ms | 163/300 |
 | 5 | #3 with MTP off | 36.3 | 1.00 | 0.50 | 0.45 | 0.11 | 1.73x | 208 | 49.2 s | 42 ms | 176/300 |
 | 6 | #3 with 350 W power cap | 32.8 | 1.00 | 0.48 | 0.33 | 0.10 | 1.69x | 179 | 57.2 s | 47 ms | 148/300 |
-| 7 | **#3 with 44 seqs (best)** | **40.9** | 1.00 | 0.60 | 0.39 | 0.13 | **1.94x** | **172** | 41.9 s | 44 ms | 163/300 |
+| 7 | #3 with 44 seqs | 40.9 | 1.00 | 0.60 | 0.39 | 0.13 | **1.94x** | **172** | 41.9 s | 44 ms | 163/300 |
+| 8 | **#7 + long-prefill threshold 2048, async scheduling off (best)** | **41.7** | 1.00 | 0.58 | **0.50** | 0.13 | 1.89x | 207 | 46.9 s | 48 ms | **191/300** |
 
 Runs 4-6 each looked better than #3 in a single local run and lost on the grader; why is in [FAILED.md](FAILED.md).
 Grader run-to-run noise (about ±10% energy, ±20 on-time requests) is larger than those effects. From then on we
 only spent a Final on a candidate that beat the baseline across **repeated cold-cache runs**: 44 seqs (median
-170 vs 157 on time over 3 vs 9 local runs) was the first to pass, and became run 7.
+170 vs 157 on time over 3 vs 9 local runs) was the first to pass, and became run 7. A long-prefill threshold of
+2048 tokens with async scheduling off (median 186 vs 170 on time) was the second, and became run 8: 28 more
+on-time answers and the best peak share (sT 0.50), at about 20% more energy per request from synchronous
+scheduling. The threshold only takes effect without async scheduling's look-ahead (vLLM issue #60476).
 
 On the lighter 100-request Validation trace (no overload) the AWQ + MTP setup with first-come-first-served scored
 48.7 (1.74x). The accuracy factor stays at about 1.00 on every run (R 0.96-1.05): 4-bit weights cost nothing
@@ -48,7 +52,7 @@ vllm serve CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp --host 0.0.0.0 --port 8000 \
   --scheduling-policy priority --middleware newest_first.NewestFirst
 ```
 
-Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest ./serve/serve.sh awq_mtp`.
+Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 ./serve/serve.sh awq_mtp`.
 vLLM 0.32.0, installed by `serve/install.sh`. The middleware is [serve/newest_first.py](serve/newest_first.py)
 (~40 lines, in-process); organizers confirmed server-side prioritization is allowed.
 

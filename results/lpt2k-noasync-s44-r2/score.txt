@@ -1,0 +1,12 @@
+run: results/lpt2k-noasync-s44-r2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.689   0.800   0.861
+rag         60   1.000   1.000   1.000
+agentic     60   0.850   0.850   1.000
+reasoning   45   1.000   0.956   1.047
+thai        30   0.867   0.900   0.963
+long        15   1.000   1.000   1.000
+on-time 184/363  errors 0  cut-off 14  joules 97021  avg W 329  avg out tok 1029  mJ/token 259.8
+p95 TTFT/SLO 279.25  p95 TPOT 44.1 ms  sL 0.060  sT 0.328
+R 0.982  class_factor 1.000  A 1.000  |  efficiency 9.84x baseline  sE 1.000
+==> estimated S = 45.6

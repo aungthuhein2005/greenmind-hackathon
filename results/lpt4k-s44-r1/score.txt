@@ -1,0 +1,12 @@
+run: results/lpt4k-s44-r1   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.778   0.800   0.972
+rag         60   1.000   1.000   1.000
+agentic     60   0.850   0.850   1.000
+reasoning   45   1.000   0.956   1.047
+thai        30   0.833   0.900   0.926
+long        15   1.000   1.000   1.000
+on-time 168/363  errors 0  cut-off 8  joules 86872  avg W 334  avg out tok 939  mJ/token 254.9
+p95 TTFT/SLO 233.82  p95 TPOT 41.5 ms  sL 0.065  sT 0.376
+R 0.992  class_factor 1.000  A 1.000  |  efficiency 10.03x baseline  sE 1.000
+==> estimated S = 47.7

@@ -49,6 +49,13 @@ LONG_PREFILL="${LONG_PREFILL:-0}"    # >0: prompts longer than this are prefille
 if [[ "$LONG_PREFILL" != "0" ]]; then TUNED+=(--long-prefill-token-threshold "$LONG_PREFILL"); fi
 STREAM_INTERVAL="${STREAM_INTERVAL:-1}"  # tokens per streamed chunk; >1 cuts host overhead with many streams
 TUNED+=(--stream-interval "$STREAM_INTERVAL")
+# Hybrid prefix caching: match prefixes every N tokens instead of every 544-token block, and store a GDN
+# state where requests diverge (both needed for sub-block hits on Mamba/GDN layers)
+PREFIX_UNIT="${PREFIX_UNIT:-0}"
+if [[ "$PREFIX_UNIT" != "0" ]]; then TUNED+=(--prefix-match-unit "$PREFIX_UNIT"); fi
+if [[ "${MAMBA_CKPT:-0}" == "1" ]]; then TUNED+=(--enable-mamba-shared-prefix-checkpoint); fi
+# ASYNC=0: synchronous scheduling, so the long-prefill threshold applies before the next chunk is queued
+if [[ "${ASYNC:-auto}" == "0" ]]; then TUNED+=(--no-async-scheduling); fi
 
 # Scheduling: fcfs (vLLM default), newest (newest-first, serve/newest_first.py)
 # or slo (deadline-aware: feasible earliest-deadline-first, missed oldest-first, serve/slo_scheduler.py)

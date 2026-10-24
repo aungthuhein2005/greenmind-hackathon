@@ -1,0 +1,12 @@
+run: results/best44-restore2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.833   0.850   0.980
+reasoning   45   0.978   0.956   1.023
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 162/365  errors 0  cut-off 6  joules 82277  avg W 338  avg out tok 840  mJ/token 268.5
+p95 TTFT/SLO 239.52  p95 TPOT 42.8 ms  sL 0.065  sT 0.332
+R 0.993  class_factor 1.000  A 1.000  |  efficiency 10.21x baseline  sE 1.000
+==> estimated S = 46.4

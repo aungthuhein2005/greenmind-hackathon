@@ -1,0 +1,8 @@
+# Plan phase 3: prefill chunk size at 44 seqs, 2 cold runs each, shuffled. Baseline = rep-s44 (8192): on time 169-172, mJ/token ~261, TPOT p95 40-45
+chunk10k-s44-r1    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=10240
+chunk6k-s44-r1    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=6144
+chunk6k-s44-r2    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=6144
+chunk12k-s44-r2    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=12288
+chunk12k-s44-r1    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=12288
+chunk10k-s44-r2    awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest BATCHED_TOKENS=10240
+best44-restore        awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
