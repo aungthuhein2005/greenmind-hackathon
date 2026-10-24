@@ -25,3 +25,20 @@ s40-nomtp	S=49.1	A=1.000	eff=11.49x	ontime=188/363	J/ontime=452	tpot95=36.8	PREF
 s40-O3	S=46.0	A=1.000	eff=9.52x	ontime=163/362	J/ontime=545	tpot95=38.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest OPT_LEVEL=3
 s40-ref3	S=44.4	A=1.000	eff=9.07x	ontime=157/363	J/ontime=572	tpot95=39.7	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
 --- nomtp seqs sweep Sat Oct 24 18:07:02 +07 2026
+--- capacity sweep Sat Oct 24 19:04:02 +07 2026
+cap-c160-b2k-fcfs	S=0.0	A=1.000	eff=2.13x	ontime=34/364	J/ontime=2432	tpot95=178.8	PREFIX_CACHE=1 MAX_SEQS=160 BATCHED_TOKENS=2048 LONG_PREFILL=1024
+cap-c160-b2k-newest	S=23.5	A=1.000	eff=2.27x	ontime=37/363	J/ontime=2286	tpot95=152.5	PREFIX_CACHE=1 MAX_SEQS=160 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest
+cap-c128-b4k-newest	S=26.2	A=0.971	eff=2.60x	ontime=42/365	J/ontime=1992	tpot95=117.8	PREFIX_CACHE=1 MAX_SEQS=128 BATCHED_TOKENS=4096 LONG_PREFILL=2048 SCHED=newest
+cap-c192-b2k-newest	S=23.1	A=1.000	eff=2.10x	ontime=35/364	J/ontime=2464	tpot95=188.9	PREFIX_CACHE=1 MAX_SEQS=192 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest
+best40-restore	S=44.7	A=1.000	eff=8.21x	ontime=146/363	J/ontime=632	tpot95=38.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+--- repeat seqs sweep Sat Oct 24 19:39:24 +07 2026
+rep-s36-r2	S=43.6	A=0.946	eff=9.19x	ontime=165/365	J/ontime=564	tpot95=36.4	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s44-r1	S=47.0	A=1.000	eff=10.41x	ontime=169/363	J/ontime=498	tpot95=44.6	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s44-r2	S=47.0	A=0.997	eff=10.06x	ontime=170/364	J/ontime=515	tpot95=40.4	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s40-r2	S=45.1	A=1.000	eff=8.88x	ontime=156/362	J/ontime=584	tpot95=37.9	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+rep-s36-r1	S=46.2	A=1.000	eff=10.65x	ontime=176/365	J/ontime=487	tpot95=37.8	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s44-r3	S=47.1	A=1.000	eff=10.35x	ontime=172/364	J/ontime=501	tpot95=40.0	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s40-r1	S=45.8	A=1.000	eff=9.18x	ontime=156/364	J/ontime=565	tpot95=38.9	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+rep-s36-r3	S=46.6	A=0.999	eff=9.74x	ontime=166/365	J/ontime=532	tpot95=37.2	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s40-r3	S=47.7	A=1.000	eff=10.10x	ontime=176/363	J/ontime=514	tpot95=41.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+best40-restore2	S=47.8	A=1.000	eff=10.09x	ontime=172/362	J/ontime=514	tpot95=39.6	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

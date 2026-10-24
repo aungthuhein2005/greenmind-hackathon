@@ -1,0 +1,20 @@
+=== rep-s36-r2 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest)
+rep-s36-r2	S=43.6	A=0.946	eff=9.19x	ontime=165/365	J/ontime=564	tpot95=36.4	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+=== rep-s44-r1 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest)
+rep-s44-r1	S=47.0	A=1.000	eff=10.41x	ontime=169/363	J/ontime=498	tpot95=44.6	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+=== rep-s44-r2 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest)
+rep-s44-r2	S=47.0	A=0.997	eff=10.06x	ontime=170/364	J/ontime=515	tpot95=40.4	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+=== rep-s40-r2 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+rep-s40-r2	S=45.1	A=1.000	eff=8.88x	ontime=156/362	J/ontime=584	tpot95=37.9	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+=== rep-s36-r1 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest)
+rep-s36-r1	S=46.2	A=1.000	eff=10.65x	ontime=176/365	J/ontime=487	tpot95=37.8	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+=== rep-s44-r3 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest)
+rep-s44-r3	S=47.1	A=1.000	eff=10.35x	ontime=172/364	J/ontime=501	tpot95=40.0	PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+=== rep-s40-r1 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+rep-s40-r1	S=45.8	A=1.000	eff=9.18x	ontime=156/364	J/ontime=565	tpot95=38.9	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+=== rep-s36-r3 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest)
+rep-s36-r3	S=46.6	A=0.999	eff=9.74x	ontime=166/365	J/ontime=532	tpot95=37.2	PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+=== rep-s40-r3 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+rep-s40-r3	S=47.7	A=1.000	eff=10.10x	ontime=176/363	J/ontime=514	tpot95=41.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+=== best40-restore2 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+best40-restore2	S=47.8	A=1.000	eff=10.09x	ontime=172/362	J/ontime=514	tpot95=39.6	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

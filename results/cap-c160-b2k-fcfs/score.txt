@@ -1,0 +1,12 @@
+run: results/cap-c160-b2k-fcfs   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.789   0.800   0.986
+rag         60   1.000   1.000   1.000
+agentic     60   0.833   0.850   0.980
+reasoning   45   0.978   0.956   1.023
+thai        30   0.800   0.900   0.889
+long        15   1.000   1.000   1.000
+on-time 34/364  errors 0  cut-off 12  joules 82697  avg W 341  avg out tok 918  mJ/token 247.5
+p95 TTFT/SLO 39.16  p95 TPOT 178.8 ms  sL 0.085  sT 0.0
+R 0.981  class_factor 1.000  A 1.000  |  efficiency 2.13x baseline  sE 0.689
+==> estimated S = 0.0

@@ -1,0 +1,18 @@
+[run] load | model=CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp | 300 items -> results/cap-c128-b4k-newest
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 365,
+  "window_s": 250.0649848569883,
+  "joules": 83674.17799999984,
+  "avg_watts": 334.60973373722413,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "awq PREFIX_CACHE=1 MAX_SEQS=128 BATCHED_TOKENS=4096 LONG_PREFILL=2048 SCHED=newest"
+}

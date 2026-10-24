@@ -1,0 +1,9 @@
+# Capacity: pure decode holds TPOT < 40 ms up to ~190 seqs without MTP (decode_bench), so run ~160 in
+# flight and stop long prefills from freezing decode (small chunks + long-prefill threshold).
+# Compare with the Final-40.0 config locally: on time 155-171/362, mJ/token 256-261, sT .28-.38
+cap-c160-b2k-fcfs     awq   PREFIX_CACHE=1 MAX_SEQS=160 BATCHED_TOKENS=2048 LONG_PREFILL=1024
+cap-c160-b2k-newest   awq   PREFIX_CACHE=1 MAX_SEQS=160 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest
+cap-c128-b4k-newest   awq   PREFIX_CACHE=1 MAX_SEQS=128 BATCHED_TOKENS=4096 LONG_PREFILL=2048 SCHED=newest
+cap-c192-b2k-newest   awq   PREFIX_CACHE=1 MAX_SEQS=192 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest
+# restore the Final-40.0 config for the grader
+best40-restore        awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

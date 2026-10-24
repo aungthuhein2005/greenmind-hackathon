@@ -1,0 +1,11 @@
+# Plan phases 0+2: cold repeated runs around 40 seqs (Final-40.0 config otherwise), shuffled order
+rep-s36-r2          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s44-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s44-r2          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s40-r2          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+rep-s36-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s44-r3          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+rep-s40-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+rep-s36-r3          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=36 SCHED=newest
+rep-s40-r3          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+best40-restore2       awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

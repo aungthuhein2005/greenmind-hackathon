@@ -1,0 +1,39 @@
+mtp c=8    tok/s    1078  TPOT median   6.0 ms  p95   6.4 ms  mJ/token  253.4  avg W  273
+mtp c=32   tok/s    2393  TPOT median  12.4 ms  p95  12.8 ms  mJ/token  128.6  avg W  308
+mtp c=64   tok/s    3545  TPOT median  16.9 ms  p95  17.4 ms  mJ/token  101.8  avg W  361
+mtp c=128  tok/s    3388  TPOT median  30.6 ms  p95  31.7 ms  mJ/token  107.4  avg W  364
+mtp c=192  tok/s    3509  TPOT median  29.0 ms  p95  32.5 ms  mJ/token  104.4  avg W  366
+nomtp c=8    tok/s     992  TPOT median   7.9 ms  p95   7.9 ms  mJ/token  255.2  avg W  253
+nomtp c=32   tok/s    2863  TPOT median  10.8 ms  p95  10.8 ms  mJ/token  104.5  avg W  299
+nomtp c=64   tok/s    3620  TPOT median  17.1 ms  p95  17.3 ms  mJ/token   84.2  avg W  305
+nomtp c=128  tok/s    4433  TPOT median  26.9 ms  p95  27.3 ms  mJ/token   75.1  avg W  333
+nomtp c=192  tok/s    4289  TPOT median  36.9 ms  p95  37.8 ms  mJ/token   77.2  avg W  331
+results/_launch/bench-mtp.log	0/2 [
+2/2 [	2/2 [
+results/_launch/bench-mtp.log	0/56 [
+2/56 [	4/56 [
+6/56 [	8/56 [
+10/56 [	12/56 [
+14/56 [	16/56 [
+18/56 [	20/56 [
+22/56 [	24/56 [
+26/56 [	28/56 [
+31/56 [	33/56 [
+35/56 [	37/56 [
+39/56 [	41/56 [
+43/56 [	45/56 [
+47/56 [	50/56 [
+53/56 [	56/56 [
+56/56 [	results/_launch/bench-nomtp.log
+0/2 [	2/2 [
+2/2 [	results/_launch/bench-nomtp.log
+0/35 [	2/35 [
+4/35 [	6/35 [
+8/35 [	10/35 [
+12/35 [	14/35 [
+16/35 [	18/35 [
+20/35 [	22/35 [
+24/35 [	26/35 [
+28/35 [	30/35 [
+32/35 [	34/35 [
+35/35 [	

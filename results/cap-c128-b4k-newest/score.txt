@@ -1,0 +1,12 @@
+run: results/cap-c128-b4k-newest   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.800   0.850   0.941
+reasoning   45   0.933   0.956   0.977
+thai        30   0.833   0.900   0.926
+long        15   1.000   1.000   1.000
+on-time 42/365  errors 0  cut-off 15  joules 83674  avg W 335  avg out tok 1004  mJ/token 228.3
+p95 TTFT/SLO 80.07  p95 TPOT 117.8 ms  sL 0.073  sT 0.03
+R 0.967  class_factor 1.000  A 0.971  |  efficiency 2.60x baseline  sE 0.871
+==> estimated S = 26.2

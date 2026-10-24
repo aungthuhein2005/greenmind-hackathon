@@ -1,0 +1,12 @@
+run: results/cap-c192-b2k-newest   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.789   0.800   0.986
+rag         60   1.000   1.000   1.000
+agentic     60   0.833   0.850   0.980
+reasoning   45   0.956   0.956   1.000
+thai        30   0.833   0.900   0.926
+long        15   1.000   1.000   1.000
+on-time 35/364  errors 0  cut-off 9  joules 86255  avg W 334  avg out tok 886  mJ/token 267.3
+p95 TTFT/SLO 35.62  p95 TPOT 188.9 ms  sL 0.086  sT 0.025
+R 0.983  class_factor 1.000  A 1.000  |  efficiency 2.10x baseline  sE 0.677
+==> estimated S = 23.1

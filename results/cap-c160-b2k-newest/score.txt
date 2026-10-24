@@ -1,0 +1,12 @@
+run: results/cap-c160-b2k-newest   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.850   0.850   1.000
+reasoning   45   0.978   0.956   1.023
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 37/363  errors 0  cut-off 8  joules 84590  avg W 332  avg out tok 922  mJ/token 252.6
+p95 TTFT/SLO 67.12  p95 TPOT 152.5 ms  sL 0.070  sT 0.025
+R 0.996  class_factor 1.000  A 1.000  |  efficiency 2.27x baseline  sE 0.746
+==> estimated S = 23.5

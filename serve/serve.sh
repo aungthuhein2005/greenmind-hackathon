@@ -45,6 +45,10 @@ KV_DTYPE="${KV_DTYPE:-auto}"         # fp8 halves KV reads/memory for the attent
 TUNED+=(--kv-cache-dtype "$KV_DTYPE")
 OPT_LEVEL="${OPT_LEVEL:-2}"          # vLLM -O0..-O3: higher = longer startup, faster steady state
 TUNED+=(--optimization-level "$OPT_LEVEL")
+LONG_PREFILL="${LONG_PREFILL:-0}"    # >0: prompts longer than this are prefilled in pieces of this size
+if [[ "$LONG_PREFILL" != "0" ]]; then TUNED+=(--long-prefill-token-threshold "$LONG_PREFILL"); fi
+STREAM_INTERVAL="${STREAM_INTERVAL:-1}"  # tokens per streamed chunk; >1 cuts host overhead with many streams
+TUNED+=(--stream-interval "$STREAM_INTERVAL")
 
 # Scheduling: fcfs (vLLM default), newest (newest-first, serve/newest_first.py)
 # or slo (deadline-aware: feasible earliest-deadline-first, missed oldest-first, serve/slo_scheduler.py)

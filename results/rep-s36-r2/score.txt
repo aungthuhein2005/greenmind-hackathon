@@ -1,0 +1,12 @@
+run: results/rep-s36-r2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.722   0.800   0.903
+rag         60   1.000   1.000   1.000
+agentic     60   0.817   0.850   0.961
+reasoning   45   0.956   0.956   1.000
+thai        30   0.800   0.900   0.889
+long        15   1.000   1.000   1.000
+on-time 165/365  errors 0  cut-off 15  joules 93094  avg W 336  avg out tok 988  mJ/token 258.3
+p95 TTFT/SLO 291.08  p95 TPOT 36.4 ms  sL 0.059  sT 0.356
+R 0.962  class_factor 1.000  A 0.946  |  efficiency 9.19x baseline  sE 1.000
+==> estimated S = 43.6

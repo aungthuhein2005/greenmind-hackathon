@@ -1,0 +1,12 @@
+run: results/rep-s40-r2   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.883   0.850   1.039
+reasoning   45   1.000   0.956   1.047
+thai        30   0.800   0.900   0.889
+long        15   1.000   1.000   1.000
+on-time 156/362  errors 0  cut-off 12  joules 91119  avg W 332  avg out tok 983  mJ/token 256.1
+p95 TTFT/SLO 270.83  p95 TPOT 37.9 ms  sL 0.061  sT 0.308
+R 0.988  class_factor 1.000  A 1.000  |  efficiency 8.88x baseline  sE 1.000
+==> estimated S = 45.1
