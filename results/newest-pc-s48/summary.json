@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 363,
+  "window_s": 251.6020035919937,
+  "joules": 86346.56999999995,
+  "avg_watts": 343.187131927703,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "awq_mtp PREFIX_CACHE=1 MAX_SEQS=48 SCHED=newest"
+}

@@ -1,0 +1,27 @@
+awq_mtp-nopc	S=0.0	A=1.000	eff=2.10x	ontime=34/364	tpot95=82.4	PREFIX_CACHE=0
+awq_mtp1-nopc	S=13.8	A=0.962	eff=1.77x	ontime=31/364	tpot95=105.1	PREFIX_CACHE=0 SPEC_TOKENS=1
+awq_mtp-nopc-s64	S=21.8	A=1.000	eff=3.10x	ontime=51/363	tpot95=58.4	PREFIX_CACHE=0 MAX_SEQS=64
+--- speed sweep Sat Oct 24 13:50:48 +07 2026
+ref-pc-s64	S=39.6	A=0.738	eff=6.21x	ontime=42/121	J/ontime=836	tpot95=81.6	PREFIX_CACHE=1 MAX_SEQS=64
+spec3-pc-s64	S=39.5	A=0.684	eff=5.44x	ontime=46/121	J/ontime=954	tpot95=76.1	PREFIX_CACHE=1 MAX_SEQS=64 SPEC_TOKENS=3
+chunk2k-pc-s64	S=56.1	A=0.957	eff=5.12x	ontime=40/122	J/ontime=1013	tpot95=55.1	PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048
+pc-s48	S=50.2	A=0.997	eff=3.54x	ontime=27/121	J/ontime=1467	tpot95=70.3	PREFIX_CACHE=1 MAX_SEQS=48
+--- newest-first sweep Sat Oct 24 14:27:12 +07 2026
+newest-pc-s64	S=47.7	A=1.000	eff=9.49x	ontime=153/363	J/ontime=547	tpot95=59.2	PREFIX_CACHE=1 MAX_SEQS=64 SCHED=newest
+ref300-pc-s64	S=21.9	A=1.000	eff=3.23x	ontime=53/364	J/ontime=1608	tpot95=57.8	PREFIX_CACHE=1 MAX_SEQS=64
+newest-pc-s48	S=45.9	A=1.000	eff=9.91x	ontime=165/363	J/ontime=523	tpot95=45.0	PREFIX_CACHE=1 MAX_SEQS=48 SCHED=newest
+--- slo sweep Sat Oct 24 14:55:04 +07 2026
+slo-pc-s48	S=45.0	A=1.000	eff=8.01x	ontime=138/363	J/ontime=648	tpot95=58.1	PREFIX_CACHE=1 MAX_SEQS=48 SCHED=slo
+slo-pc-s64	S=46.9	A=1.000	eff=8.44x	ontime=143/363	J/ontime=614	tpot95=57.7	PREFIX_CACHE=1 MAX_SEQS=64 SCHED=slo
+--- newest small sweep Sat Oct 24 15:06:05 +07 2026
+newest-pc-s40	S=47.5	A=1.000	eff=9.68x	ontime=166/362	J/ontime=536	tpot95=40.6	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+newest-pc-s32	S=44.6	A=1.000	eff=9.13x	ontime=156/365	J/ontime=568	tpot95=32.1	PREFIX_CACHE=1 MAX_SEQS=32 SCHED=newest
+--- s40 next sweep Sat Oct 24 15:51:05 +07 2026
+s40-chunk16k	S=47.0	A=1.000	eff=10.42x	ontime=169/363	J/ontime=498	tpot95=37.4	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest BATCHED_TOKENS=16384
+s40-kvfp8	SERVER_FAILED	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest KV_DTYPE=fp8
+s40-ref2	S=45.7	A=1.000	eff=9.06x	ontime=155/362	J/ontime=573	tpot95=37.1	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+--- lecture sweep Sat Oct 24 17:39:17 +07 2026
+s40-nomtp	S=49.1	A=1.000	eff=11.49x	ontime=188/363	J/ontime=452	tpot95=36.8	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+s40-O3	S=46.0	A=1.000	eff=9.52x	ontime=163/362	J/ontime=545	tpot95=38.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest OPT_LEVEL=3
+s40-ref3	S=44.4	A=1.000	eff=9.07x	ontime=157/363	J/ontime=572	tpot95=39.7	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+--- nomtp seqs sweep Sat Oct 24 18:07:02 +07 2026

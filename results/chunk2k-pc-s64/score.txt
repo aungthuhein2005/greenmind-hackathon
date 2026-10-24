@@ -1,0 +1,12 @@
+run: results/chunk2k-pc-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        31   0.806   0.800   1.008
+rag         20   1.000   1.000   1.000
+agentic     20   0.800   0.850   0.941
+reasoning   15   1.000   0.956   1.047
+thai        10   0.700   0.900   0.778
+long         5   1.000   1.000   1.000
+on-time 40/122  errors 0  cut-off 4  joules 40519  avg W 296  avg out tok 978
+p95 TTFT/SLO 13.63  p95 TPOT 55.1 ms  sL 0.258  sT 0.269
+R 0.964  class_factor 1.000  A 0.957  |  efficiency 5.12x baseline  sE 1.000
+==> estimated S = 56.1

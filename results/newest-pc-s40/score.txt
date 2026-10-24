@@ -1,0 +1,12 @@
+run: results/newest-pc-s40   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.900   0.850   1.059
+reasoning   45   0.956   0.956   1.000
+thai        30   0.800   0.900   0.889
+long        15   1.000   1.000   1.000
+on-time 166/362  errors 0  cut-off 10  joules 88912  avg W 326  avg out tok 961
+p95 TTFT/SLO 244.35  p95 TPOT 40.6 ms  sL 0.064  sT 0.378
+R 0.983  class_factor 1.000  A 1.000  |  efficiency 9.68x baseline  sE 1.000
+==> estimated S = 47.5

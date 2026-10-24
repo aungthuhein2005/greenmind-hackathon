@@ -1,0 +1,4 @@
+=== newest-pc-s40 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+newest-pc-s40	S=47.5	A=1.000	eff=9.68x	ontime=166/362	J/ontime=536	tpot95=40.6	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+=== newest-pc-s32 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=32 SCHED=newest)
+newest-pc-s32	S=44.6	A=1.000	eff=9.13x	ontime=156/365	J/ontime=568	tpot95=32.1	PREFIX_CACHE=1 MAX_SEQS=32 SCHED=newest

@@ -1,0 +1,18 @@
+[run] load | model=CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp | 300 items -> results/s40-cold-pl300
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 362,
+  "window_s": 274.19695006700204,
+  "joules": 79979.36700000009,
+  "avg_watts": 291.6858374261878,
+  "power_limit_w": 300.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest 300W cold"
+}

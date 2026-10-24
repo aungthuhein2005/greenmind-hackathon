@@ -1,0 +1,5 @@
+# cold-cache runs on data/val.jsonl (server restarts per line); rank by J/ontime
+ref-pc-s64            awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64
+spec3-pc-s64          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64 SPEC_TOKENS=3
+chunk2k-pc-s64        awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048
+pc-s48                awq_mtp   PREFIX_CACHE=1 MAX_SEQS=48

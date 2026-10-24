@@ -1,0 +1,3 @@
+# newest-first with fewer slots (48 beat 64: 165 vs 153 on time, TPOT 45 vs 59 ms). Then restore best.
+newest-pc-s40         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+newest-pc-s32         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=32 SCHED=newest

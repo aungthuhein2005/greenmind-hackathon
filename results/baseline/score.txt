@@ -1,0 +1,10 @@
+run: results/baseline   (load, power limit 400.0 W)
+class        n     acc
+chat        90   0.800
+rag         60   1.000
+agentic     60   0.850
+reasoning   45   0.956
+thai        30   0.900
+long        15   1.000
+on-time 23/370  errors 0  cut-off 5  joules 119294  avg W 334  avg out tok 994
+p95 TTFT/SLO 152.16  p95 TPOT 68.7 ms  sL 0.069  sT 0.005

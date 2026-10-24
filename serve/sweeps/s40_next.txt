@@ -1,0 +1,5 @@
+# on top of the Final-40.0 config (newest-first s40: local 166/362 on time, J/on-time 536, TPOT 41 ms)
+s40-chunk16k          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest BATCHED_TOKENS=16384
+s40-kvfp8             awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest KV_DTYPE=fp8
+# restore the Final-40.0 config last so the grader endpoint is left on it
+s40-ref2              awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

@@ -1,0 +1,12 @@
+run: results/awq_mtp-nopc-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.722   0.800   0.903
+rag         60   1.000   1.000   1.000
+agentic     60   0.883   0.850   1.039
+reasoning   45   0.978   0.956   1.023
+thai        30   0.933   0.900   1.037
+long        15   1.000   1.000   1.000
+on-time 51/363  errors 0  cut-off 13  joules 85293  avg W 348  avg out tok 958
+p95 TTFT/SLO 86.67  p95 TPOT 58.4 ms  sL 0.099  sT 0.005
+R 1.002  class_factor 1.000  A 1.000  |  efficiency 3.10x baseline  sE 1.000
+==> estimated S = 21.8

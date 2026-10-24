@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 363,
+  "window_s": 262.35678998799995,
+  "joules": 92240.531,
+  "avg_watts": 351.5843100695775,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "AWQ+MTP spec2 seqs128 lm-only 400W"
+}

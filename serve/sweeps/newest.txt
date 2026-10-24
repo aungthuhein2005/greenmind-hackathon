@@ -1,0 +1,4 @@
+# cold-cache runs on the 300-item workload (our proxy for the Final trace); server restarts per line
+newest-pc-s64         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64 SCHED=newest
+ref300-pc-s64         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64
+newest-pc-s48         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=48 SCHED=newest

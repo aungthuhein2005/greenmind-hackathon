@@ -1,0 +1,7 @@
+# tag                 profile   env overrides
+# H1: prefix caching (Mamba "align" snapshots) eats KV memory with a 0% hit rate
+awq_mtp-nopc          awq_mtp   PREFIX_CACHE=0
+# H2: MTP with 1 draft token holds TPOT better at high batch
+awq_mtp1-nopc         awq_mtp   PREFIX_CACHE=0 SPEC_TOKENS=1
+# H3: fewer concurrent seqs -> admitted requests stay inside 50 ms TPOT
+awq_mtp-nopc-s64      awq_mtp   PREFIX_CACHE=0 MAX_SEQS=64

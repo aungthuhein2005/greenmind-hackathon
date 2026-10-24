@@ -1,0 +1,4 @@
+PL=400 on-time 40/121 joules 38425 avg W 306 p95 TTFT/SLO 10.05 p95 TPOT 81.7 ms 
+PL=300 on-time 115/121 joules 31855 avg W 276 p95 TTFT/SLO 0.32 p95 TPOT 22.2 ms 
+PL=250 on-time 118/121 joules 25447 avg W 245 p95 TTFT/SLO 0.36 p95 TPOT 24.2 ms 
+PL=200 on-time 116/121 joules 22626 avg W 197 p95 TTFT/SLO 0.55 p95 TPOT 32.1 ms 

@@ -1,0 +1,12 @@
+run: results/spec3-pc-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        31   0.774   0.800   0.968
+rag         20   1.000   1.000   1.000
+agentic     20   0.900   0.850   1.059
+reasoning   15   1.000   0.956   1.047
+thai        10   0.600   0.900   0.667  <-- below 0.75 of baseline
+long         5   1.000   1.000   1.000
+on-time 46/121  errors 0  cut-off 6  joules 43893  avg W 305  avg out tok 1121
+p95 TTFT/SLO 10.30  p95 TPOT 76.1 ms  sL 0.253  sT 0.254
+R 0.958  class_factor 0.741  A 0.684  |  efficiency 5.44x baseline  sE 1.000
+==> estimated S = 39.5

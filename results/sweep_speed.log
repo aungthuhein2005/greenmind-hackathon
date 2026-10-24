@@ -1,0 +1,8 @@
+=== ref-pc-s64 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=64)
+ref-pc-s64	S=39.6	A=0.738	eff=6.21x	ontime=42/121	J/ontime=836	tpot95=81.6	PREFIX_CACHE=1 MAX_SEQS=64
+=== spec3-pc-s64 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=64 SPEC_TOKENS=3)
+spec3-pc-s64	S=39.5	A=0.684	eff=5.44x	ontime=46/121	J/ontime=954	tpot95=76.1	PREFIX_CACHE=1 MAX_SEQS=64 SPEC_TOKENS=3
+=== chunk2k-pc-s64 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048)
+chunk2k-pc-s64	S=56.1	A=0.957	eff=5.12x	ontime=40/122	J/ontime=1013	tpot95=55.1	PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048
+=== pc-s48 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=48)
+pc-s48	S=50.2	A=0.997	eff=3.54x	ontime=27/121	J/ontime=1467	tpot95=70.3	PREFIX_CACHE=1 MAX_SEQS=48

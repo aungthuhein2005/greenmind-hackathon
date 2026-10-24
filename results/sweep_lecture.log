@@ -1,0 +1,6 @@
+=== s40-nomtp (awq PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+s40-nomtp	S=49.1	A=1.000	eff=11.49x	ontime=188/363	J/ontime=452	tpot95=36.8	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest
+=== s40-O3 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest OPT_LEVEL=3)
+s40-O3	S=46.0	A=1.000	eff=9.52x	ontime=163/362	J/ontime=545	tpot95=38.0	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest OPT_LEVEL=3
+=== s40-ref3 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest)
+s40-ref3	S=44.4	A=1.000	eff=9.07x	ontime=157/363	J/ontime=572	tpot95=39.7	PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest

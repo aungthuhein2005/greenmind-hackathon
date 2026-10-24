@@ -1,0 +1,3 @@
+httpx>=0.27
+datasets>=2.19
+nvidia-ml-py>=12.535

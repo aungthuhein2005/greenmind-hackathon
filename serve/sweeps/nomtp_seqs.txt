@@ -1,0 +1,4 @@
+# MTP off left TPOT headroom (p95 37 ms at 40 seqs): can more slots serve more on time?
+# Compare with s40-nomtp: 188/363 on time, 452 J per on-time, sT .44
+nomtp-s48             awq       PREFIX_CACHE=1 MAX_SEQS=48 SCHED=newest
+nomtp-s56             awq       PREFIX_CACHE=1 MAX_SEQS=56 SCHED=newest

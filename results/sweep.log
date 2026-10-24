@@ -1,0 +1,6 @@
+=== awq_mtp-nopc (awq_mtp PREFIX_CACHE=0)
+awq_mtp-nopc	S=0.0	A=1.000	eff=2.10x	ontime=34/364	tpot95=82.4	PREFIX_CACHE=0
+=== awq_mtp1-nopc (awq_mtp PREFIX_CACHE=0 SPEC_TOKENS=1)
+awq_mtp1-nopc	S=13.8	A=0.962	eff=1.77x	ontime=31/364	tpot95=105.1	PREFIX_CACHE=0 SPEC_TOKENS=1
+=== awq_mtp-nopc-s64 (awq_mtp PREFIX_CACHE=0 MAX_SEQS=64)
+awq_mtp-nopc-s64	S=21.8	A=1.000	eff=3.10x	ontime=51/363	tpot95=58.4	PREFIX_CACHE=0 MAX_SEQS=64

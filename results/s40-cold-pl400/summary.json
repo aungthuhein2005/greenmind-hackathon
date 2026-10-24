@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 362,
+  "window_s": 260.69166648999817,
+  "joules": 87523.37800000003,
+  "avg_watts": 335.735235339247,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest 400W cold"
+}

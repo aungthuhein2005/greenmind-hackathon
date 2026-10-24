@@ -1,0 +1,3 @@
+s40-cold-pl350 on-time 171/362 joules 84705 avg W 310 mJ/token 249.5 p95 TPOT 37.5 ms sT 0.383 
+s40-cold-pl300 on-time 148/362 joules 79979 avg W 292 mJ/token 236.2 p95 TPOT 43.6 ms sT 0.338 
+s40-cold-pl400 on-time 161/362 joules 87523 avg W 336 mJ/token 260.2 p95 TPOT 38.1 ms sT 0.348 

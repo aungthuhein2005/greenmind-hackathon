@@ -1,0 +1,12 @@
+run: results/newest-pc-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.789   0.800   0.986
+rag         60   1.000   1.000   1.000
+agentic     60   0.833   0.850   0.980
+reasoning   45   0.978   0.956   1.023
+thai        30   0.833   0.900   0.926
+long        15   1.000   1.000   1.000
+on-time 153/363  errors 0  cut-off 6  joules 83621  avg W 342  avg out tok 875
+p95 TTFT/SLO 187.97  p95 TPOT 59.2 ms  sL 0.067  sT 0.366
+R 0.987  class_factor 1.000  A 1.000  |  efficiency 9.49x baseline  sE 1.000
+==> estimated S = 47.7

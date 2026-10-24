@@ -1,0 +1,4 @@
+=== slo-pc-s48 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=48 SCHED=slo)
+slo-pc-s48	S=45.0	A=1.000	eff=8.01x	ontime=138/363	J/ontime=648	tpot95=58.1	PREFIX_CACHE=1 MAX_SEQS=48 SCHED=slo
+=== slo-pc-s64 (awq_mtp PREFIX_CACHE=1 MAX_SEQS=64 SCHED=slo)
+slo-pc-s64	S=46.9	A=1.000	eff=8.44x	ontime=143/363	J/ontime=614	tpot95=57.7	PREFIX_CACHE=1 MAX_SEQS=64 SCHED=slo

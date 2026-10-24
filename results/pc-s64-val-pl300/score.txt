@@ -1,0 +1,10 @@
+run: results/pc-s64-val-pl300   (load, power limit 300.0 W)
+class        n     acc
+chat        31   0.710
+rag         20   1.000
+agentic     20   0.900
+reasoning   15   1.000
+thai        10   0.700
+long         5   1.000
+on-time 115/121  errors 0  cut-off 6  joules 31855  avg W 276  avg out tok 1053
+p95 TTFT/SLO 0.32  p95 TPOT 22.2 ms  sL 1.000  sT 0.97

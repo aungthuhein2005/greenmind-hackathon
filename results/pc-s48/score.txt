@@ -1,0 +1,12 @@
+run: results/pc-s48   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        31   0.774   0.800   0.968
+rag         20   1.000   1.000   1.000
+agentic     20   0.900   0.850   1.059
+reasoning   15   1.000   0.956   1.047
+thai        10   0.700   0.900   0.778
+long         5   1.000   1.000   1.000
+on-time 27/121  errors 0  cut-off 5  joules 39602  avg W 307  avg out tok 1054
+p95 TTFT/SLO 15.04  p95 TPOT 70.3 ms  sL 0.217  sT 0.149
+R 0.976  class_factor 1.000  A 0.997  |  efficiency 3.54x baseline  sE 1.000
+==> estimated S = 50.2

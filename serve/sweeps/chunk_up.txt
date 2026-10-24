@@ -1,0 +1,4 @@
+# cold-cache runs on data/val.jsonl (server restarts per line); rank by J/ontime vs ref-pc-s64 (836)
+# Hypothesis: 2048 chunks cost energy (4x more prefill passes), so bigger chunks should save it.
+chunk16k-pc-s64       awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=16384
+ref2-pc-s64           awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64

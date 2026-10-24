@@ -1,0 +1,49 @@
+"""Newest-first admission for vLLM's priority scheduler (loaded in-process via --middleware).
+
+Under sustained overload, first-come-first-served makes the queue grow until every new request
+misses its TTFT SLO (0.5 s + 0.25 s per 1K prompt tokens). The only requests that can still be on
+time are the ones that just arrived, so we admit those first; requests already stuck in the queue
+are late either way and finish later (e.g. in the quiet phase). Nothing is dropped and nothing
+the client sent is changed except vLLM's own `priority` field (lower = scheduled earlier).
+
+Used with: --scheduling-policy priority --middleware newest_first.NewestFirst
+
+Organizers confirmed on Discord (Oct 24) that server-side request prioritization is allowed.
+"""
+import json
+import time
+
+
+class NewestFirst:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if not (scope["type"] == "http" and scope["method"] == "POST"
+                and scope["path"].endswith("/chat/completions")):
+            return await self.app(scope, receive, send)
+
+        body, more = b"", True
+        while more:
+            msg = await receive()
+            body += msg.get("body", b"")
+            more = msg.get("more_body", False)
+        try:
+            req = json.loads(body)
+            req["priority"] = -(time.monotonic_ns() // 1_000_000)  # newer arrival -> lower value
+            body = json.dumps(req).encode()
+            scope = dict(scope, headers=[(k, v) for k, v in scope["headers"] if k != b"content-length"]
+                         + [(b"content-length", str(len(body)).encode())])
+        except (ValueError, TypeError):
+            pass  # not JSON: pass through untouched and let vLLM report the error
+
+        replayed = False
+
+        async def replay():
+            nonlocal replayed
+            if not replayed:
+                replayed = True
+                return {"type": "http.request", "body": body, "more_body": False}
+            return await receive()
+
+        await self.app(scope, replay, send)

@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/val.jsonl",
+  "items": 101,
+  "requests": 121,
+  "window_s": 114.76769321999745,
+  "joules": 22625.897000000026,
+  "avg_watts": 197.1451753119111,
+  "power_limit_w": 200.0,
+  "phases": {
+    "ramp_end": 12.5,
+    "peak_end": 26.5,
+    "quiet_end": 46.5
+  },
+  "note": "AWQ+MTP prefix on, seqs64, 200W"
+}

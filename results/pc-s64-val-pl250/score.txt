@@ -1,0 +1,10 @@
+run: results/pc-s64-val-pl250   (load, power limit 250.0 W)
+class        n     acc
+chat        31   0.839
+rag         20   1.000
+agentic     20   0.950
+reasoning   15   1.000
+thai        10   0.600
+long         5   1.000
+on-time 118/121  errors 0  cut-off 3  joules 25447  avg W 245  avg out tok 956
+p95 TTFT/SLO 0.36  p95 TPOT 24.2 ms  sL 1.000  sT 0.985

@@ -1,0 +1,18 @@
+[run] load | model=CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp | 300 items -> results/ref300-pc-s64
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 364,
+  "window_s": 250.46580015999643,
+  "joules": 85214.78500000003,
+  "avg_watts": 340.22523212975665,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "awq_mtp PREFIX_CACHE=1 MAX_SEQS=64"
+}

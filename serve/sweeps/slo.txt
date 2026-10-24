@@ -1,0 +1,4 @@
+# cold-cache runs on the 300-item workload (Final proxy). Compare with newest-pc-s48:
+# 165/363 on time, J/on-time 523, p95 TTFT/SLO 225, p95 TPOT 45 ms (grader Final: S 33.2)
+slo-pc-s48            awq_mtp   PREFIX_CACHE=1 MAX_SEQS=48 SCHED=slo
+slo-pc-s64            awq_mtp   PREFIX_CACHE=1 MAX_SEQS=64 SCHED=slo

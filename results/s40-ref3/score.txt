@@ -1,0 +1,12 @@
+run: results/s40-ref3   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.789   0.800   0.986
+rag         60   1.000   1.000   1.000
+agentic     60   0.867   0.850   1.020
+reasoning   45   0.956   0.956   1.000
+thai        30   0.867   0.900   0.963
+long        15   1.000   1.000   1.000
+on-time 157/363  errors 0  cut-off 11  joules 89757  avg W 329  avg out tok 949
+p95 TTFT/SLO 258.58  p95 TPOT 39.7 ms  sL 0.062  sT 0.279
+R 0.995  class_factor 1.000  A 1.000  |  efficiency 9.07x baseline  sE 1.000
+==> estimated S = 44.4

@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "CMKL/MANGO1.5-Qwen3.5-9B",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 370,
+  "window_s": 357.63922581200313,
+  "joules": 119294.162,
+  "avg_watts": 333.56006106194917,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "default vllm serve BF16, 400W"
+}

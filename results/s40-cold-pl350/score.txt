@@ -1,0 +1,12 @@
+run: results/s40-cold-pl350   (load, power limit 350.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.867   0.850   1.020
+reasoning   45   1.000   0.956   1.047
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 171/362  errors 0  cut-off 11  joules 84705  avg W 310  avg out tok 938  mJ/token 249.5
+p95 TTFT/SLO 263.65  p95 TPOT 37.5 ms  sL 0.062  sT 0.383
+R 1.003  class_factor 1.000  A 1.000  |  efficiency 10.47x baseline  sE 1.000
+==> estimated S = 47.3
