@@ -1,0 +1,12 @@
+run: results/tb512-r1   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.811   0.800   1.014
+rag         60   0.983   1.000   0.983
+agentic     60   0.867   0.850   1.020
+reasoning   45   0.911   0.956   0.953
+thai        30   0.867   0.900   0.963
+long        15   0.933   1.000   0.933
+on-time 210/362  errors 0  cut-off 4  joules 71517  avg W 337  avg out tok 623  mJ/token 317.2
+p95 TTFT/SLO 177.51  p95 TPOT 45.3 ms  sL 0.075  sT 0.483
+R 0.976  class_factor 1.000  A 0.997  |  efficiency 15.23x baseline  sE 1.000
+==> estimated S = 51.3

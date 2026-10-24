@@ -56,6 +56,15 @@ if [[ "$PREFIX_UNIT" != "0" ]]; then TUNED+=(--prefix-match-unit "$PREFIX_UNIT")
 if [[ "${MAMBA_CKPT:-0}" == "1" ]]; then TUNED+=(--enable-mamba-shared-prefix-checkpoint); fi
 # ASYNC=0: synchronous scheduling, so the long-prefill threshold applies before the next chunk is queued
 if [[ "${ASYNC:-auto}" == "0" ]]; then TUNED+=(--no-async-scheduling); fi
+# REASONING_END: text forced when the thinking budget (THINK_BUDGET, see newest_first.py) runs out.
+# A transition phrase before </think> helps the model answer directly instead of reasoning in the answer.
+case "${REASONING_END_PRESET:-}" in   # space-free names for sweep files
+  concise) REASONING_END="I have enough information. Now I give only the concise final answer.</think>" ;;
+  vllm)    REASONING_END="I have to give the solution based on the reasoning directly now.</think>" ;;
+esac
+if [[ -n "${REASONING_END:-}" ]]; then
+  TUNED+=(--reasoning-config "{\"reasoning_end_str\": \"${REASONING_END}\"}")
+fi
 
 # Scheduling: fcfs (vLLM default), newest (newest-first, serve/newest_first.py)
 # or slo (deadline-aware: feasible earliest-deadline-first, missed oldest-first, serve/slo_scheduler.py)

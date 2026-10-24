@@ -1,0 +1,12 @@
+run: results/tb256-r1   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.800   0.800   1.000
+rag         60   1.000   1.000   1.000
+agentic     60   0.867   0.850   1.020
+reasoning   45   0.956   0.956   1.000
+thai        30   0.933   0.900   1.037
+long        15   1.000   1.000   1.000
+on-time 197/363  errors 0  cut-off 6  joules 75511  avg W 335  avg out tok 639  mJ/token 325.8
+p95 TTFT/SLO 177.84  p95 TPOT 53.6 ms  sL 0.072  sT 0.448
+R 1.009  class_factor 1.000  A 1.000  |  efficiency 13.53x baseline  sE 1.000
+==> estimated S = 50.4

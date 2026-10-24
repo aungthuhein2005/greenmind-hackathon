@@ -1,0 +1,12 @@
+run: results/tb1024-r1   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.833   0.800   1.042
+rag         60   1.000   1.000   1.000
+agentic     60   0.867   0.850   1.020
+reasoning   45   0.978   0.956   1.023
+thai        30   0.833   0.900   0.926
+long        15   1.000   1.000   1.000
+on-time 212/362  errors 0  cut-off 5  joules 75824  avg W 338  avg out tok 706  mJ/token 296.5
+p95 TTFT/SLO 196.77  p95 TPOT 41.5 ms  sL 0.071  sT 0.458
+R 1.001  class_factor 1.000  A 1.000  |  efficiency 14.50x baseline  sE 1.000
+==> estimated S = 50.4

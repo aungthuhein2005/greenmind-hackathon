@@ -1,6 +1,6 @@
-# ONLY WITH WRITTEN ORGANIZER APPROVAL. Thinking budget on the 40.9 config (44 seqs, newest-first, MTP2).
-# Check accuracy per class (thai/reasoning/agentic) and tool-call success, not just on-time.
-tb1024-s44-r1         awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest THINK_BUDGET=1024
-tb512-s44-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest THINK_BUDGET=512
-tb256-s44-r1          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest THINK_BUDGET=256
-best44-restore3       awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest
+# Thinking budget (organizers' GPU mentor on Discord, Oct 25: "Yes, you can cap the thinking budget").
+# On the run-8 config (44 seqs, threshold 2048, async off). Check accuracy per class + output tokens.
+tb512-r1              awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 THINK_BUDGET=512
+tb1024-r1             awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 THINK_BUDGET=1024
+tb256-r1              awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 THINK_BUDGET=256
+run8-restore          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0

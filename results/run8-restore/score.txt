@@ -1,0 +1,12 @@
+run: results/run8-restore   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.778   0.800   0.972
+rag         60   1.000   1.000   1.000
+agentic     60   0.867   0.850   1.020
+reasoning   45   1.000   0.956   1.047
+thai        30   0.867   0.900   0.963
+long        15   1.000   1.000   1.000
+on-time 179/362  errors 0  cut-off 7  joules 81191  avg W 347  avg out tok 862  mJ/token 260.3
+p95 TTFT/SLO 219.55  p95 TPOT 43.5 ms  sL 0.067  sT 0.338
+R 1.001  class_factor 1.000  A 1.000  |  efficiency 11.43x baseline  sE 1.000
+==> estimated S = 47.0

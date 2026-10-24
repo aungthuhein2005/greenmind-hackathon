@@ -10,7 +10,7 @@ No derived weights were created.
 
 ## Result
 
-**Best Final score: S = 41.7** (191/300 requests on time, 1.89x the baseline's on-time answers per joule, accuracy factor 1.00).
+**Best Final score: S = 48.6** (205/300 requests on time, 2.52x the baseline's on-time answers per joule, 167 J/request).
 
 Every grader **Final** submission (300 requests), in order:
 
@@ -24,7 +24,9 @@ Every grader **Final** submission (300 requests), in order:
 | 5 | #3 with MTP off | 36.3 | 1.00 | 0.50 | 0.45 | 0.11 | 1.73x | 208 | 49.2 s | 42 ms | 176/300 |
 | 6 | #3 with 350 W power cap | 32.8 | 1.00 | 0.48 | 0.33 | 0.10 | 1.69x | 179 | 57.2 s | 47 ms | 148/300 |
 | 7 | #3 with 44 seqs | 40.9 | 1.00 | 0.60 | 0.39 | 0.13 | **1.94x** | **172** | 41.9 s | 44 ms | 163/300 |
-| 8 | **#7 + long-prefill threshold 2048, async scheduling off (best)** | **41.7** | 1.00 | 0.58 | **0.50** | 0.13 | 1.89x | 207 | 46.9 s | 48 ms | **191/300** |
+| 8 | #7 + long-prefill threshold 2048, async scheduling off | 41.7 | 1.00 | 0.58 | 0.50 | 0.13 | 1.89x | 207 | 46.9 s | 48 ms | 191/300 |
+| 9 | #8 re-run (same config) | 35.2 | 1.00 | 0.47 | 0.46 | 0.11 | 1.68x | 212 | 51.6 s | 49 ms | 174/300 |
+| 10 | **#8 + thinking budget 1024 tokens (best)** | **48.6** | 0.90 | **0.84** | **0.54** | 0.14 | **2.52x** | **167** | 32.0 s | 48 ms | **205/300** |
 
 Runs 4-6 each looked better than #3 in a single local run and lost on the grader; why is in [FAILED.md](FAILED.md).
 Grader run-to-run noise (about ±10% energy, ±20 on-time requests) is larger than those effects. From then on we
@@ -33,6 +35,13 @@ only spent a Final on a candidate that beat the baseline across **repeated cold-
 2048 tokens with async scheduling off (median 186 vs 170 on time) was the second, and became run 8: 28 more
 on-time answers and the best peak share (sT 0.50), at about 20% more energy per request from synchronous
 scheduling. The threshold only takes effect without async scheduling's look-ahead (vLLM issue #60476).
+
+**Thinking budget (run 10).** The real bottleneck is output length: ~950 tokens per answer, mostly reasoning. With the
+organizers' approval (GPU mentor on Discord: "Yes, you can cap the thinking budget") the server caps reasoning at
+1024 tokens through vLLM's `thinking_token_budget`; thinking stays on for every request and the model then writes its
+answer. Output fell 22%, on-time answers rose to 205/300 and energy to 167 J/request (2.52x baseline efficiency). The
+cost is accuracy: R 0.955 on that run (A 0.90), from shorter reasoning on math/long items plus normal run-to-run noise.
+Budget 512 lost too much math accuracy locally; 256 made the model reason inside the answer instead.
 
 On the lighter 100-request Validation trace (no overload) the AWQ + MTP setup with first-come-first-served scored
 48.7 (1.74x). The accuracy factor stays at about 1.00 on every run (R 0.96-1.05): 4-bit weights cost nothing
@@ -51,9 +60,10 @@ vllm serve CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp --host 0.0.0.0 --port 8000 \
   --language-model-only --enable-prefix-caching --kv-cache-dtype auto \
   --speculative-config '{"method":"mtp","num_speculative_tokens":2}' \
   --scheduling-policy priority --middleware newest_first.NewestFirst
+# + THINK_BUDGET=1024 in the environment: the middleware sets thinking_token_budget on each request
 ```
 
-Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 ./serve/serve.sh awq_mtp`.
+Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0 THINK_BUDGET=1024 ./serve/serve.sh awq_mtp`.
 vLLM 0.32.0, installed by `serve/install.sh`. The middleware is [serve/newest_first.py](serve/newest_first.py)
 (~40 lines, in-process); organizers confirmed server-side prioritization is allowed.
 

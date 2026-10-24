@@ -14,9 +14,9 @@ import json
 import os
 import time
 
-# EXPERIMENT, OFF BY DEFAULT and NOT in any submitted config: cap reasoning at N tokens via vLLM's
-# thinking_token_budget. Changes how the model thinks, which the grader fixes — use only with written
-# organizer approval.
+# Optional, off by default: cap reasoning at N tokens via vLLM's thinking_token_budget. Thinking stays on;
+# the server closes </think> after N tokens and the model writes its answer. The organizers' GPU mentor
+# confirmed on Discord (Oct 25): "Yes, you can cap the thinking budget." Thinking is never disabled.
 THINK_BUDGET = int(os.environ.get("THINK_BUDGET", "0"))
 
 

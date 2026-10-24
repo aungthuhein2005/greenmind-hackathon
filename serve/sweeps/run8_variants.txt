@@ -1,0 +1,7 @@
+# Around the run-8 config (44 seqs, threshold 2048, async off: local 186/184 on time, TPOT p95 43-44,
+# grader 41.7 with TPOT 48 ms and +20% J/request). Two cold runs each, shuffled; restore run 8 last.
+s40-lpt2k-noasync-r1  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest LONG_PREFILL=2048 ASYNC=0
+s44-lpt1k-noasync-r1  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=1024 ASYNC=0
+s44-lpt1k-noasync-r2  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=1024 ASYNC=0
+s40-lpt2k-noasync-r2  awq_mtp   PREFIX_CACHE=1 MAX_SEQS=40 SCHED=newest LONG_PREFILL=2048 ASYNC=0
+run8-restore          awq_mtp   PREFIX_CACHE=1 MAX_SEQS=44 SCHED=newest LONG_PREFILL=2048 ASYNC=0
