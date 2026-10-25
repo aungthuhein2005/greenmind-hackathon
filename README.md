@@ -1,20 +1,61 @@
-# GreenMind — on-time LLM work per joule
+<div align="center">
 
-Serving `CMKL/MANGO1.5-Qwen3.5-9B` on one A100 40GB so that as many answers as possible meet the
-SLO per GPU joule. GreenMind LLM Inference Optimization Hackathon, Oct 2026.
+# 🌿 GreenMind — More Useful Answers per Joule
 
-**Weights:** our submitted model is our own INT8 W8A8 quantization, made during the event from the official BF16
-weights: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8 (build script: `quantize/w8a8_int8.py`).
-Earlier runs used the organizer-provided originals —
-[`CMKL/MANGO1.5-Qwen3.5-9B`](https://huggingface.co/CMKL/MANGO1.5-Qwen3.5-9B) (baseline) and
-[`CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp`](https://huggingface.co/CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp) (submitted).
+**Serving `CMKL/MANGO1.5-Qwen3.5-9B` on one A100 40GB so that as many answers as possible arrive on time,<br>
+for as few GPU joules as possible.**
 
-## Result
+*GreenMind LLM Inference Optimization Hackathon · October 2026*
 
-**Best Final score: S = 99.8** (298/300 requests on time, accuracy factor 1.00, 4.54x the baseline's on-time answers per joule)
-with our own **INT8 W8A8** quantization of the model: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
+![Final score](https://img.shields.io/badge/Final_score-99.8_%2F_100-2e7d53?style=for-the-badge)
+![On time](https://img.shields.io/badge/On_time-298_%2F_300-2e7d53?style=for-the-badge)
+![Efficiency](https://img.shields.io/badge/Efficiency-4.54x_baseline-2e7d53?style=for-the-badge)
+![Accuracy](https://img.shields.io/badge/Accuracy_factor-1.00-2e7d53?style=for-the-badge)
 
-Every grader **Final** submission (300 requests), in order:
+![GPU](https://img.shields.io/badge/GPU-A100_40GB-76b900?style=flat-square&logo=nvidia&logoColor=white)
+![vLLM](https://img.shields.io/badge/vLLM-0.32.0-30a2ff?style=flat-square)
+![Quantization](https://img.shields.io/badge/Weights-INT8_W8A8-ff9d00?style=flat-square)
+[![Hugging Face](https://img.shields.io/badge/🤗_Model-MANGO1.5--Qwen3.5--9B--W8A8--INT8-ffd21e?style=flat-square)](https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8)
+
+[**Results**](#-results) · [**How it works**](#-how-we-got-there) · [**Run it**](#-run-it) · [**Experiments**](EXPERIMENTS.md) · [**What failed**](FAILED.md) · [**Pitch notes**](docs/pitch_notes.md)
+
+</div>
+
+---
+
+> [!IMPORTANT]
+> **Best Final: S = 99.8** — accuracy, energy and latency at full marks (A = sE = sL = 1.00), peak throughput sT = 0.99.
+> 298 of 300 requests met every SLO, at **134 J per request** and **4.54×** the baseline's on-time answers per joule.
+
+> [!NOTE]
+> **Weights.** The submitted model is **our own INT8 W8A8 quantization**, made during the event from the official BF16
+> weights: [aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8](https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8)
+> (build script: [`quantize/w8a8_int8.py`](quantize/w8a8_int8.py)). Earlier runs used the organizers' originals:
+> [`CMKL/MANGO1.5-Qwen3.5-9B`](https://huggingface.co/CMKL/MANGO1.5-Qwen3.5-9B) and
+> [`CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp`](https://huggingface.co/CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp).
+
+## 📈 Results
+
+```mermaid
+xychart-beta
+  title "Grader Final score S (300 requests, max 100)"
+  x-axis ["FCFS", "Newest-first", "Thinking cap", "INT8", "INT8 + cap", "72 seqs", "Cap 1536"]
+  y-axis "S" 0 --> 100
+  bar [0, 41.7, 48.6, 95.9, 98.6, 99.7, 99.8]
+```
+
+| Milestone | Final S | On time | Efficiency | p95 first token | p95 per token | What changed |
+|---|:-:|:-:|:-:|:-:|:-:|---|
+| AWQ 4-bit + MTP, first-come-first-served | 0.0 | 87/300 | 0.86× | 6.2 s | 62 ms | the peak queue made every new request late |
+| + newest-first, 44 seqs, long-prefill threshold | 41.7 | 191/300 | 1.89× | 46.9 s | 48 ms | serve the request that can still be on time |
+| + thinking budget 1024 | 48.6 | 205/300 | 2.52× | 32.0 s | 48 ms | fewer tokens per answer (accuracy dipped: A 0.90) |
+| **Our INT8 W8A8 model** + MTP2, 64 seqs | 95.9 | 279/300 | 2.84× | 1.3 s | 33 ms | INT8 tensor cores — the backlog disappears |
+| + thinking budget 2048 | 98.6 | 286/300 | 3.80× | 1.7 s | 36 ms | energy at full marks, accuracy *up* (R 1.063) |
+| + 72 concurrent sequences | 99.7 | 295/300 | 3.96× | 1.5 s | 34 ms | peak share 0.93 → 0.98 |
+| **+ thinking budget 1536** | **99.8** | **298/300** | **4.54×** | **1.5 s** | **35 ms** | peak share 0.99, 134 J/request |
+
+<details>
+<summary><b>All 16 Final submissions</b> (S = 100 × A × sE<sup>0.6</sup> × sT<sup>0.2</sup> × sL<sup>0.2</sup>)</summary>
 
 | # | Config | S | A | sE | sT | sL | Efficiency vs baseline | J / request | p95 TTFT | p95 TPOT | SLO met |
 |---|---|---|---|---|---|---|---|---|---|---|---|
@@ -25,7 +66,7 @@ Every grader **Final** submission (300 requests), in order:
 | 4 | #3 + prefill chunk 16384 | 29.0 | 0.95 | 0.40 | 0.38 | 0.11 | 1.56x | 214 | 50.0 s | 44 ms | 163/300 |
 | 5 | #3 with MTP off | 36.3 | 1.00 | 0.50 | 0.45 | 0.11 | 1.73x | 208 | 49.2 s | 42 ms | 176/300 |
 | 6 | #3 with 350 W power cap | 32.8 | 1.00 | 0.48 | 0.33 | 0.10 | 1.69x | 179 | 57.2 s | 47 ms | 148/300 |
-| 7 | #3 with 44 seqs | 40.9 | 1.00 | 0.60 | 0.39 | 0.13 | **1.94x** | **172** | 41.9 s | 44 ms | 163/300 |
+| 7 | #3 with 44 seqs | 40.9 | 1.00 | 0.60 | 0.39 | 0.13 | 1.94x | 172 | 41.9 s | 44 ms | 163/300 |
 | 8 | #7 + long-prefill threshold 2048, async scheduling off | 41.7 | 1.00 | 0.58 | 0.50 | 0.13 | 1.89x | 207 | 46.9 s | 48 ms | 191/300 |
 | 9 | #8 re-run (same config) | 35.2 | 1.00 | 0.47 | 0.46 | 0.11 | 1.68x | 212 | 51.6 s | 49 ms | 174/300 |
 | 10 | #8 + thinking budget 1024 tokens | 48.6 | 0.90 | 0.84 | 0.54 | 0.14 | 2.52x | 167 | 32.0 s | 48 ms | 205/300 |
@@ -36,33 +77,80 @@ Every grader **Final** submission (300 requests), in order:
 | 15 | #14 with 80 concurrent sequences | 99.6 | 1.00 | 1.00 | 0.98 | 1.00 | 3.76x | 160 | 1.6 s | 36 ms | 294/300 |
 | 16 | **#14 with thinking budget 1536 (best)** | **99.8** | **1.00** | **1.00** | **0.99** | **1.00** | **4.54x** | **134** | 1.5 s | 35 ms | **298/300** |
 
-Runs 4-6 each looked better than #3 in a single local run and lost on the grader; why is in [FAILED.md](FAILED.md).
-Grader run-to-run noise (about ±10% energy, ±20 on-time requests) is larger than those effects. From then on we
-only spent a Final on a candidate that beat the baseline across **repeated cold-cache runs**: 44 seqs (median
-170 vs 157 on time over 3 vs 9 local runs) was the first to pass, and became run 7. A long-prefill threshold of
-2048 tokens with async scheduling off (median 186 vs 170 on time) was the second, and became run 8: 28 more
-on-time answers and the best peak share (sT 0.50), at about 20% more energy per request from synchronous
-scheduling. The threshold only takes effect without async scheduling's look-ahead (vLLM issue #60476).
+Runs 4–6 each looked better than #3 in a single local run and lost on the grader. Grader run-to-run noise (about
+±10% energy, ±20 on-time requests on AWQ) was larger than those effects, so from then on a candidate only got a Final
+after beating the current best across **repeated cold-cache runs**. On the lighter 100-request Validation trace, the
+AWQ + MTP setup scored 48.7 and our INT8 model 93.5.
 
-**Thinking budget (run 10).** The real bottleneck is output length: ~950 tokens per answer, mostly reasoning. With the
-organizers' approval (GPU mentor on Discord: "Yes, you can cap the thinking budget") the server caps reasoning at
-1024 tokens through vLLM's `thinking_token_budget`; thinking stays on for every request and the model then writes its
-answer. Output fell 22%, on-time answers rose to 205/300 and energy to 167 J/request (2.52x baseline efficiency). The
-cost is accuracy: R 0.955 on that run (A 0.90), from shorter reasoning on math/long items plus normal run-to-run noise.
-Budget 512 lost too much math accuracy locally; 256 made the model reason inside the answer instead.
+</details>
 
-On the lighter 100-request Validation trace (no overload) the AWQ + MTP setup with first-come-first-served scored
-48.7 (1.74x). The accuracy factor stays at about 1.00 on every run (R 0.96-1.05): 4-bit weights cost nothing
-measurable on the grader's six classes.
+## 🧭 How we got there
 
-## Final serving command (run 16, S = 99.8)
+> [!TIP]
+> The whole project followed the organizers' loop: **Measure → Hypothesize → Change one thing → Re-measure → Explain.**
+> Every run is in [EXPERIMENTS.md](EXPERIMENTS.md); every failure, with its explanation, is in [FAILED.md](FAILED.md).
+
+### 1 · Free memory so more requests fit
+
+The default server isn't short of power, it's short of **memory**: BF16 weights take 17.6 GB, the KV cache fills to
+99% at the 4 req/s peak, ~75 requests run while 100+ queue, and almost nothing meets the SLO.
+
+| Change | Effect |
+|---|---|
+| AWQ W4A16 weights (organizers' model) | 17.6 → 7.7 GB of weights, KV cache +66%, same accuracy |
+| MTP speculative decoding, 2 drafts | ~2.2–2.9 tokens accepted per forward pass |
+| `--language-model-only` | the grader is text-only: no vision encoder memory |
+| Prefix caching on | agent traffic reuses tool schemas and history; turning it off cost 213 → 279 J/request |
+
+### 2 · Serve the newest request first under overload
+
+The Final's peak sends work faster than one A100 can finish it. First-come-first-served lets the queue grow until
+**every** new request misses its 0.5 s first-token deadline (Final: 87/300 on time, peak share 0.02). Under overload,
+only a request that just arrived can still be on time — so we admit those first. Requests already stuck in the queue
+were late anyway; they still complete, with the same accuracy, in the quiet phase.
+
+~40 lines of in-process vLLM middleware ([`serve/newest_first.py`](serve/newest_first.py)) on vLLM's priority
+scheduler — the organizers confirmed server-side prioritization is allowed. Combined with a concurrency cap and a
+long-prefill threshold: **0.0 → 41.7**.
+
+### 3 · Our own INT8 model for the A100's INT8 tensor cores
+
+> [!NOTE]
+> AWQ stores 4-bit weights but still multiplies in 16-bit. The A100 has **INT8 tensor cores (~2× its 16-bit rate)**
+> and no FP8 — so 4-bit AWQ left the fastest hardware path unused.
+
+We built a data-free **INT8 W8A8** model from the official BF16 weights with llm-compressor
+([`quantize/w8a8_int8.py`](quantize/w8a8_int8.py)):
+
+| Quantized to INT8 | Kept in BF16 |
+|---|---|
+| MLP `gate/up/down_proj` · full attention `q/k/v/o_proj` · Gated-DeltaNet `in_proj_qkv`, `in_proj_z`, `out_proj` | DeltaNet gates `in_proj_a/b` · `lm_head` · MTP head · vision tower |
+| per-channel weights, **dynamic per-token activations** (no calibration data) | copied unchanged from the BF16 checkpoint |
+
+vLLM serves it on `CutlassInt8ScaledMMLinearKernel`, and MTP still accepts ~2.9 tokens per step. Decode became fast
+enough that the peak no longer builds a backlog: p95 first-token time **32 s → 1.3 s**, latency score 0.14 → 1.00,
+accuracy unchanged. **48.6 → 95.9.**
+
+### 4 · Bound the reasoning, then fill the GPU
+
+> [!NOTE]
+> The organizers' GPU mentor confirmed on Discord: *"Yes, you can cap the thinking budget."* Thinking stays on for every
+> request; `max_tokens`, temperature and sampling are exactly what the grader sends.
+
+The middleware sets vLLM's `thinking_token_budget` on each request. A cap of **2048** cut energy by 23% and *raised*
+accuracy (R 1.063) — it stops the long reasoning chains that used to hit the 8,192-token limit and end without an
+answer (**98.6**). With the backlog gone, the only factor left below 1.00 was the peak share: **72 concurrent
+sequences** lifted it to 0.98 (**99.7**), and tightening the cap to **1536** brought it to 0.99 at 134 J/request
+(**99.8**).
+
+## 🚀 Run it
 
 ```bash
 # 1. Build the INT8 W8A8 model from the official BF16 weights (data-free, ~1 min on CPU; separate venv with llm-compressor)
 ~/lc/bin/python quantize/w8a8_int8.py <CMKL/MANGO1.5-Qwen3.5-9B snapshot dir> ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 #    or download it: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 
-# 2. Serve it (GPU at its default 400 W limit)
+# 2. Serve it (best run #16; GPU at its default 400 W limit)
 THINK_BUDGET=1536 VLLM_USE_FLASHINFER_SAMPLER=0 PYTHONPATH=serve \
 vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 CMKL/MANGO1.5-Qwen3.5-9B --host 0.0.0.0 --port 8000 \
@@ -74,93 +162,58 @@ vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --scheduling-policy priority --middleware newest_first.NewestFirst
 ```
 
-Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=72 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=1536 ./serve/serve.sh int8_mtp`.
-vLLM 0.32.0 (`serve/install.sh`). `THINK_BUDGET=1536` makes the middleware set vLLM's `thinking_token_budget` on each request
-(organizer-approved cap; thinking stays on). Run 12 (95.9) was the same without the cap.
+Or with our script: `PREFIX_CACHE=1 MAX_SEQS=72 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=1536 ./serve/serve.sh int8_mtp`
+(vLLM 0.32.0, installed by [`serve/install.sh`](serve/install.sh)).
 
-**Why INT8 was the breakthrough.** Every AWQ setup was capped by decode speed: AWQ stores 4-bit weights but multiplies in
-16-bit, while the A100 has INT8 tensor cores (624 TOPS, about twice its 16-bit rate) and no FP8. Our W8A8 model quantizes
-the MLP, attention and Gated DeltaNet projections to INT8 (per-channel weights, dynamic per-token activations, no
-calibration data) and keeps the gates, `lm_head` and the MTP head in BF16; vLLM runs it on `CutlassInt8ScaledMMLinearKernel`.
-MTP still accepts ~2.9 tokens per step. Decode became fast enough that 64 concurrent requests stay at 33 ms p95 per
-token, so the Final's peak no longer builds a backlog: p95 first-token time fell from 32 s to 1.3 s (sL 0.14 -> 1.00) and
-279/300 requests met the SLO, with accuracy unchanged (R 0.991, A 1.00).
+> [!WARNING]
+> `VLLM_USE_FLASHINFER_SAMPLER=0` is needed on machines without a CUDA toolkit (`nvcc`): FlashInfer's sampler is
+> JIT-compiled at start-up. Output is identical at temperature 0.
 
-**Thinking budget 2048 on top (run 13).** Capping reasoning at 2048 tokens cut energy to 154 J/request (3.80x baseline,
-full energy marks) and *raised* accuracy (R 1.063, 93.3%): the cap stops the long reasoning chains that used to hit the
-8,192-token limit and end without an answer. 286/300 requests met the SLO.
+## 🗂️ Repository
 
-**72 concurrent sequences (run 14).** With the backlog gone, the only factor below full marks was the peak share
-(sT 0.93). Raising concurrency from 64 to 72 lifted it to 0.98 (295/300 on time) with p95 TPOT still 34 ms.
-Shortest-prompt-first scheduling was tested locally and lost (long prompts miss their deadline when pushed back).
-
-**Thinking budget 1536 (run 16).** A tighter cap on the 72-sequence INT8 config cut energy to 134 J/request (4.54x)
-and lifted the peak share to 0.99 (298/300 on time) with accuracy unchanged (R 1.018).
-
-## Why it works
-
-**1. Free memory so more requests fit.** The baseline is not short of power, it is short of memory. With BF16
-weights (17.6 GB) only ~14 GB is left for KV cache; at the 4 req/s peak the cache hits 99%, ~75 requests run while
-100+ queue, and almost nothing meets the SLO. Every late answer still burns joules.
-
-| Change | Effect |
+| Path | What's inside |
 |---|---|
-| **AWQ W4A16 weights** | 17.6 -> 7.7 GB of weights, KV cache 13.9 -> 23 GB (+66%); same accuracy |
-| **MTP speculative decoding, 2 drafts** | ~2.2-2.9 tokens accepted per step -> fewer forward passes per answer |
-| **`--language-model-only`** | grader is text-only; skips the vision encoder and its memory |
-| **Prefix caching on** | grader traffic reuses tool definitions and multi-turn history; turning it off cost 213 -> 279 J/request |
+| [`quantize/`](quantize) | `w8a8_int8.py` (INT8 W8A8 build), `MODEL_CARD.md` |
+| [`serve/`](serve) | `install.sh`, `serve.sh` (profiles), `newest_first.py` (priority + thinking-budget middleware), `slo_scheduler.py` (tried, lost), `power.sh`, sweep scripts |
+| [`harness/`](harness) | `workload.py` (open-data workload), `run.py` (load runner + NVML energy), `score.py` (S estimate), `aggregate.py`, `decode_bench.py` |
+| [`results/`](results) | one folder per local run (requests, items, power trace, summary, score); `_launch/` = exact server commands and logs |
+| [`docs/pitch_notes.md`](docs/pitch_notes.md) | pitch outline, impact numbers, Q&A |
+| [`EXPERIMENTS.md`](EXPERIMENTS.md) · [`FAILED.md`](FAILED.md) | every run · every failure with its explanation |
 
-**2. Serve newest-first under overload.** Even so, the Final trace's peak sends work faster than one A100 can
-finish it. First-come-first-served then makes the queue grow until *every* new request misses its 0.5 s TTFT, so
-the whole peak is wasted energy (Final: 87/300 on time, sT 0.02). Under overload the only requests that can still
-be on time are the ones that just arrived, so we admit those first. Requests already stuck in the queue were late
-anyway; they still complete (no drops, accuracy unchanged) and drain in the quiet phase. On-time answers:
-87 -> 169 of 300 for the same hardware.
+<details>
+<summary><b>Local harness: how we tested before spending a Final</b></summary>
 
-**3. Cap concurrency to the SLO.** With newest-first, fewer simultaneous decodes keep every admitted request
-under the 50 ms TPOT SLO (64 -> 48 -> 40 seqs: p95 TPOT 59 -> 45 -> 41 ms locally, 51 -> 44 ms on the grader).
-
-The cost is a long tail for the requests that were already late (p95 TTFT ~50 s, sL 0.12). We tried an SLO-aware
-scheduler that serves missed requests oldest-first to shorten that tail; it lost more on-time answers than it
-gained in latency (FAILED.md).
-
-Every experiment, including the ones that made things worse, is in [EXPERIMENTS.md](EXPERIMENTS.md); the failures
-and our explanations are in [FAILED.md](FAILED.md).
-
-## Repository
-
-```
-serve/       install.sh, serve.sh (profiles), newest_first.py (scheduling middleware), slo_scheduler.py
-             (tried, lost), power.sh, sweep_configs.sh, sweep_power.sh, sweeps/
-harness/     workload.py (open-data workload), run.py (load/accuracy runner + NVML energy), score.py (S estimate)
-results/     one folder per run: requests.jsonl, items.jsonl, power.csv, summary.json, score.txt; _launch/ = exact commands
-tests/       mock_server.py to test the harness without a GPU
-```
-
-### Local harness
-
-`harness/workload.py` builds a gradable workload with the grader's class mix from open data only
-(MMLU, GSM8K, Belebele `tha_Thai`, synthetic needle-in-documents and fake-tool agentic episodes).
-`harness/run.py load` replays it open-loop (ramp -> 4 req/s peak -> 1 req/s quiet) with thinking on,
-`max_tokens` 8192, temperature 0, and reads GPU joules from NVML. `harness/score.py` applies the briefing's formulas.
+`harness/workload.py` builds a gradable workload with the grader's class mix from open data only (MMLU, GSM8K,
+Belebele `tha_Thai`, synthetic needle-in-documents and fake-tool agentic episodes). `harness/run.py load` replays it
+open-loop (ramp → 4 req/s peak → 1 req/s quiet) with thinking on, `max_tokens` 8192, temperature 0, and reads GPU
+joules from NVML. `harness/score.py` applies the briefing's formulas.
 
 What it got right and wrong, compared with the grader:
-- Energy efficiency and accuracy tracked the grader closely (1.86x local vs 1.76x grader).
-- Its 300-item run reproduces the **Final** trace's overload (we first mistook this for being "too harsh",
-  because the 100-request Validation trace never overloads the server). It found newest-first scheduling
-  before we spent a Final submission on it.
-- It had no shared prefixes, so it could not see the value of prefix caching — the grader could.
-- Replaying the same prompts with prefix caching on made later runs look far too good (warm cache);
-  local runs must restart the server between configs.
+- Energy efficiency and accuracy tracked the grader closely (1.86× local vs 1.76× grader).
+- Its 300-item run reproduces the Final's overload, which the 100-request Validation trace never shows.
+- It had few shared prefixes, so it couldn't see the value of prefix caching — the grader could.
+- Replaying the same prompts with a warm prefix cache made later runs look far too good: every local comparison
+  restarts the server first.
+- Energy must be compared per output token: output length varies ±8% between runs.
 
 ```bash
 ./serve/install.sh                                         # uv venv + vLLM + deps
 python harness/workload.py --out data/workload.jsonl       # 300 items
-./serve/serve.sh awq_mtp                                   # terminal 1
+./serve/serve.sh int8_mtp                                  # terminal 1
 python harness/run.py load --name my-run                   # terminal 2
 python harness/score.py results/my-run --baseline results/baseline
 ```
 
-Harness self-test without a GPU: `python tests/mock_server.py`, then
+Self-test without a GPU: `python tests/mock_server.py`, then
 `python harness/workload.py --out data/mock.jsonl --synthetic --scale 0.2` and
 `python harness/run.py load --name mock --workload data/mock.jsonl --base-url http://127.0.0.1:8765/v1 --peak-rate 20`.
+
+</details>
+
+<div align="center">
+
+---
+
+*Built during the GreenMind LLM Inference Optimization Hackathon, October 2026.*
+
+</div>
