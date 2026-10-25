@@ -1,0 +1,3 @@
+# Shortest-prompt-first vs newest-first, everything else = the 98.6 config. Then restore 98.6.
+int8-tb2048-shortest  int8_mtp  PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=shortest THINK_BUDGET=2048
+best986-restore2      int8_mtp  PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048

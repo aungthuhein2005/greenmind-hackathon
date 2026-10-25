@@ -1,0 +1,12 @@
+run: results/int8-tb2048-shortest   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.811   0.800   1.014
+rag         60   1.000   1.000   1.000
+agentic     60   0.817   0.850   0.961
+reasoning   45   0.956   0.956   1.000
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 212/376  errors 0  cut-off 4  joules 68850  avg W 326  avg out tok 848  mJ/token 215.9
+p95 TTFT/SLO 17.26  p95 TPOT 41.3 ms  sL 0.241  sT 0.43
+R 0.996  class_factor 1.000  A 1.000  |  efficiency 15.97x baseline  sE 1.000
+==> estimated S = 63.5

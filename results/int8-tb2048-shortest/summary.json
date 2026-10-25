@@ -1,0 +1,17 @@
+{
+  "mode": "load",
+  "model": "MANGO1.5-Qwen3.5-9B-W8A8-INT8",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 376,
+  "window_s": 210.9065464430023,
+  "joules": 68849.974,
+  "avg_watts": 326.44778059844043,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "int8_mtp PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=shortest THINK_BUDGET=2048"
+}

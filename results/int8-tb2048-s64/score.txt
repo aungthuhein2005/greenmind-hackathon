@@ -1,0 +1,12 @@
+run: results/int8-tb2048-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.767   0.800   0.958
+rag         60   1.000   1.000   1.000
+agentic     60   0.850   0.850   1.000
+reasoning   45   1.000   0.956   1.047
+thai        30   0.933   0.900   1.037
+long        15   1.000   1.000   1.000
+on-time 248/381  errors 0  cut-off 2  joules 65760  avg W 333  avg out tok 840  mJ/token 205.5
+p95 TTFT/SLO 137.26  p95 TPOT 36.4 ms  sL 0.085  sT 0.495
+R 1.008  class_factor 1.000  A 1.000  |  efficiency 19.56x baseline  sE 1.000
+==> estimated S = 53.1

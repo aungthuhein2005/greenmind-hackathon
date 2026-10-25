@@ -18,6 +18,9 @@ import time
 # the server closes </think> after N tokens and the model writes its answer. The organizers' GPU mentor
 # confirmed on Discord (Oct 25): "Yes, you can cap the thinking budget." Thinking is never disabled.
 THINK_BUDGET = int(os.environ.get("THINK_BUDGET", "0"))
+# PRIORITY_MODE=shortest: serve shorter prompts first instead of newest first. Once the backlog is gone (INT8),
+# the grader's TTFT deadline (0.5 s + 0.25 s per 1K prompt tokens) is tightest for short prompts.
+PRIORITY_MODE = os.environ.get("PRIORITY_MODE", "newest")
 
 
 class NewestFirst:
@@ -36,7 +39,10 @@ class NewestFirst:
             more = msg.get("more_body", False)
         try:
             req = json.loads(body)
-            req["priority"] = -(time.monotonic_ns() // 1_000_000)  # newer arrival -> lower value
+            if PRIORITY_MODE == "shortest":
+                req["priority"] = len(json.dumps(req.get("messages", []))) // 4  # ~prompt tokens; ties: arrival
+            else:
+                req["priority"] = -(time.monotonic_ns() // 1_000_000)  # newer arrival -> lower value
             if THINK_BUDGET > 0 and req.get("thinking_token_budget") is None:
                 req["thinking_token_budget"] = THINK_BUDGET
             body = json.dumps(req).encode()

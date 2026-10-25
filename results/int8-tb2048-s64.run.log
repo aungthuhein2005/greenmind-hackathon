@@ -1,0 +1,18 @@
+[run] load | model=MANGO1.5-Qwen3.5-9B-W8A8-INT8 | 300 items -> results/int8-tb2048-s64
+{
+  "mode": "load",
+  "model": "MANGO1.5-Qwen3.5-9B-W8A8-INT8",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 381,
+  "window_s": 197.77290845000243,
+  "joules": 65760.342,
+  "avg_watts": 332.5042975571369,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "int8_mtp PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048"
+}

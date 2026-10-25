@@ -77,6 +77,8 @@ if [[ "$SCHED" != "fcfs" ]]; then
 fi
 case "$SCHED" in
   newest) TUNED+=(--scheduling-policy priority --middleware newest_first.NewestFirst) ;;
+  shortest) export PRIORITY_MODE=shortest
+          TUNED+=(--scheduling-policy priority --middleware newest_first.NewestFirst) ;;
   slo)    TUNED+=(--scheduling-policy priority --scheduler-cls slo_scheduler.SLOScheduler) ;;
 esac
 

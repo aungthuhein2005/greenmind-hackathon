@@ -1,0 +1,12 @@
+run: results/int8-tb1536-s64   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.756   0.800   0.944
+rag         60   1.000   1.000   1.000
+agentic     60   0.817   0.850   0.961
+reasoning   45   0.978   0.956   1.023
+thai        30   0.900   0.900   1.000
+long        15   1.000   1.000   1.000
+on-time 250/379  errors 0  cut-off 3  joules 64644  avg W 329  avg out tok 785  mJ/token 217.3
+p95 TTFT/SLO 126.16  p95 TPOT 36.5 ms  sL 0.089  sT 0.507
+R 0.990  class_factor 1.000  A 1.000  |  efficiency 20.06x baseline  sE 1.000
+==> estimated S = 53.8

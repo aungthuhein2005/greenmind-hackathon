@@ -1,0 +1,3 @@
+# Middle ground: 80 seqs raised peak share (sT .50 -> .63 locally) but p95 TPOT 55 ms; try 72. Then restore 98.6.
+int8-tb2048-s72       int8_mtp  PREFIX_CACHE=1 MAX_SEQS=72 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048
+best986-restore3      int8_mtp  PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048
