@@ -26,11 +26,20 @@ Build script: `quantize/w8a8_int8.py` in https://github.com/aungthuhein2005/gree
 Serving (vLLM 0.32, single A100 40GB):
 
 ```bash
-vllm serve <this repo> --served-model-name CMKL/MANGO1.5-Qwen3.5-9B \
+vllm serve <this repo> --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 \
-  --max-model-len 49152 --max-num-seqs 64 --max-num-batched-tokens 2048 --long-prefill-token-threshold 1024 \
+  --max-model-len 49152 --max-num-seqs 72 --max-num-batched-tokens 2048 --long-prefill-token-threshold 1024 \
   --enable-prefix-caching --language-model-only \
-  --speculative-config '{"method":"mtp","num_speculative_tokens":2}'
+  --speculative-config '{"method":"mtp","num_speculative_tokens":2}' \
+  --scheduling-policy priority --middleware newest_first.NewestFirst
+# plus a 2048-token thinking budget per request (vLLM thinking_token_budget, set by our middleware;
+# organizer-approved). Middleware and full setup: see the GitHub repo.
 ```
 
-GreenMind Validation (100 requests): S 93.5, 96/100 requests within SLO, p95 TPOT 24 ms, accuracy factor 0.99.
+GreenMind results with this model (single A100 40GB):
+
+| Run | Score S | Requests within SLO | J/request | p95 TTFT | p95 TPOT | Accuracy factor |
+|---|---|---|---|---|---|---|
+| Final, no thinking cap, 64 seqs | 95.9 | 279/300 | 201 | 1.26 s | 33 ms | 1.00 |
+| Final, thinking budget 2048, 64 seqs | 98.6 | 286/300 | 154 | 1.72 s | 36 ms | 1.00 |
+| **Final, thinking budget 2048, 72 seqs (best)** | **99.7** | **295/300** | **152** | 1.51 s | 34 ms | **1.00** |
