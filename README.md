@@ -11,7 +11,7 @@ Earlier runs used the organizer-provided originals —
 
 ## Result
 
-**Best Final score: S = 95.9** (279/300 requests on time, accuracy factor 1.00, 2.84x the baseline's on-time answers per joule)
+**Best Final score: S = 98.6** (286/300 requests on time, accuracy factor 1.00, 3.80x the baseline's on-time answers per joule)
 with our own **INT8 W8A8** quantization of the model: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 
 Every grader **Final** submission (300 requests), in order:
@@ -30,7 +30,8 @@ Every grader **Final** submission (300 requests), in order:
 | 9 | #8 re-run (same config) | 35.2 | 1.00 | 0.47 | 0.46 | 0.11 | 1.68x | 212 | 51.6 s | 49 ms | 174/300 |
 | 10 | #8 + thinking budget 1024 tokens | 48.6 | 0.90 | 0.84 | 0.54 | 0.14 | 2.52x | 167 | 32.0 s | 48 ms | 205/300 |
 | 11 | #8 + thinking budget 1536 tokens | 48.1 | 1.00 | 0.81 | 0.43 | 0.11 | 2.44x | 152 | 45.6 s | 51 ms | 181/300 |
-| 12 | **Our INT8 W8A8 model + MTP2, 64 seqs, prefill 2048, long-prefill threshold 1024, newest-first, no thinking cap (best)** | **95.9** | **1.00** | **0.95** | **0.94** | **1.00** | **2.84x** | 201 | **1.3 s** | **33 ms** | **279/300** |
+| 12 | Our INT8 W8A8 model + MTP2, 64 seqs, prefill 2048, long-prefill threshold 1024, newest-first, no thinking cap | 95.9 | 1.00 | 0.95 | 0.94 | 1.00 | 2.84x | 201 | 1.3 s | 33 ms | 279/300 |
+| 13 | **#12 + thinking budget 2048 tokens (best)** | **98.6** | **1.00** | **1.00** | 0.93 | **1.00** | **3.80x** | **154** | 1.7 s | 36 ms | **286/300** |
 
 Runs 4-6 each looked better than #3 in a single local run and lost on the grader; why is in [FAILED.md](FAILED.md).
 Grader run-to-run noise (about ±10% energy, ±20 on-time requests) is larger than those effects. From then on we
@@ -51,7 +52,7 @@ On the lighter 100-request Validation trace (no overload) the AWQ + MTP setup wi
 48.7 (1.74x). The accuracy factor stays at about 1.00 on every run (R 0.96-1.05): 4-bit weights cost nothing
 measurable on the grader's six classes.
 
-## Final serving command (run 12, S = 95.9)
+## Final serving command (run 13, S = 98.6)
 
 ```bash
 # 1. Build the INT8 W8A8 model from the official BF16 weights (data-free, ~1 min on CPU; separate venv with llm-compressor)
@@ -59,11 +60,20 @@ measurable on the grader's six classes.
 #    or download it: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 
 # 2. Serve it (GPU at its default 400 W limit)
-VLLM_USE_FLASHINFER_SAMPLER=0 PYTHONPATH=serve vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8   --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 CMKL/MANGO1.5-Qwen3.5-9B --host 0.0.0.0 --port 8000   --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3   --max-model-len 49152 --gpu-memory-utilization 0.92   --max-num-seqs 64 --max-num-batched-tokens 2048 --enable-chunked-prefill --long-prefill-token-threshold 1024   --language-model-only --enable-prefix-caching   --speculative-config '{"method":"mtp","num_speculative_tokens":2}'   --scheduling-policy priority --middleware newest_first.NewestFirst
+THINK_BUDGET=2048 VLLM_USE_FLASHINFER_SAMPLER=0 PYTHONPATH=serve \
+vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
+  --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 CMKL/MANGO1.5-Qwen3.5-9B --host 0.0.0.0 --port 8000 \
+  --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 \
+  --max-model-len 49152 --gpu-memory-utilization 0.92 \
+  --max-num-seqs 64 --max-num-batched-tokens 2048 --enable-chunked-prefill --long-prefill-token-threshold 1024 \
+  --language-model-only --enable-prefix-caching \
+  --speculative-config '{"method":"mtp","num_speculative_tokens":2}' \
+  --scheduling-policy priority --middleware newest_first.NewestFirst
 ```
 
-Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest ./serve/serve.sh int8_mtp`.
-vLLM 0.32.0 (`serve/install.sh`). No thinking cap in this run.
+Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=64 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048 ./serve/serve.sh int8_mtp`.
+vLLM 0.32.0 (`serve/install.sh`). `THINK_BUDGET=2048` makes the middleware set vLLM's `thinking_token_budget` on each request
+(organizer-approved cap; thinking stays on). Run 12 (95.9) was the same without the cap.
 
 **Why INT8 was the breakthrough.** Every AWQ setup was capped by decode speed: AWQ stores 4-bit weights but multiplies in
 16-bit, while the A100 has INT8 tensor cores (624 TOPS, about twice its 16-bit rate) and no FP8. Our W8A8 model quantizes
@@ -72,6 +82,10 @@ calibration data) and keeps the gates, `lm_head` and the MTP head in BF16; vLLM 
 MTP still accepts ~2.9 tokens per step. Decode became fast enough that 64 concurrent requests stay at 33 ms p95 per
 token, so the Final's peak no longer builds a backlog: p95 first-token time fell from 32 s to 1.3 s (sL 0.14 -> 1.00) and
 279/300 requests met the SLO, with accuracy unchanged (R 0.991, A 1.00).
+
+**Thinking budget 2048 on top (run 13).** Capping reasoning at 2048 tokens cut energy to 154 J/request (3.80x baseline,
+full energy marks) and *raised* accuracy (R 1.063, 93.3%): the cap stops the long reasoning chains that used to hit the
+8,192-token limit and end without an answer. 286/300 requests met the SLO.
 
 ## Why it works
 
