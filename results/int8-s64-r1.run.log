@@ -1,0 +1,18 @@
+[run] load | model=MANGO1.5-Qwen3.5-9B-W8A8-INT8 | 300 items -> results/int8-s64-r1
+{
+  "mode": "load",
+  "model": "MANGO1.5-Qwen3.5-9B-W8A8-INT8",
+  "workload": "data/workload.jsonl",
+  "items": 300,
+  "requests": 377,
+  "window_s": 231.22642929499852,
+  "joules": 77688.825,
+  "avg_watts": 335.98592183804664,
+  "power_limit_w": 400.0,
+  "phases": {
+    "ramp_end": 37.5,
+    "peak_end": 78.75,
+    "quiet_end": 138.75
+  },
+  "note": "INT8 W8A8 + MTP2, s64 b2048 lpt1024 newest"
+}

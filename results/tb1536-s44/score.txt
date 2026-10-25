@@ -1,0 +1,12 @@
+run: results/tb1536-s44   (load, power limit 400.0 W)
+class        n     acc    base   ratio
+chat        90   0.778   0.800   0.972
+rag         60   0.950   1.000   0.950
+agentic     60   0.867   0.850   1.020
+reasoning   45   1.000   0.956   1.047
+thai        30   0.867   0.900   0.963
+long        15   1.000   1.000   1.000
+on-time 205/362  errors 0  cut-off 2  joules 74416  avg W 334  avg out tok 676  mJ/token 304.3
+p95 TTFT/SLO 207.73  p95 TPOT 43.8 ms  sL 0.069  sT 0.393
+R 0.992  class_factor 1.000  A 1.000  |  efficiency 14.29x baseline  sE 1.000
+==> estimated S = 48.7

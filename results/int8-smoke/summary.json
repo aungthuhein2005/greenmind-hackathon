@@ -1,0 +1,13 @@
+{
+  "mode": "acc",
+  "model": "MANGO1.5-Qwen3.5-9B-W8A8-INT8",
+  "workload": "data/smoke.jsonl",
+  "items": 6,
+  "requests": 8,
+  "window_s": 45.553769209000166,
+  "joules": 9689.752,
+  "avg_watts": 212.7102140668872,
+  "power_limit_w": 400.0,
+  "phases": {},
+  "note": ""
+}

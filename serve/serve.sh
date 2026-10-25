@@ -19,6 +19,9 @@ export VLLM_USE_FLASHINFER_SAMPLER="${VLLM_USE_FLASHINFER_SAMPLER:-0}"
 PORT="${PORT:-8000}"
 BF16_MODEL="CMKL/MANGO1.5-Qwen3.5-9B"
 AWQ_MODEL="CMKL/MANGO1.5-Qwen3.5-9B-AWQ-W4A16-mtp"
+# Our INT8 W8A8 model, built from BF16 by quantize/w8a8_int8.py (A100 INT8 tensor cores)
+INT8_MODEL="${INT8_MODEL:-$HOME/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8}"
+INT8_NAMES=(--served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 "$BF16_MODEL")
 
 # Serving knobs (sweep these)
 MAX_LEN="${MAX_LEN:-49152}"          # 32K prompt + 8192 output + headroom
@@ -84,6 +87,8 @@ case "$PROFILE" in
   bf16_tuned) CMD=(vllm serve "$BF16_MODEL" "${CONTRACT[@]}" "${TUNED[@]}") ;;
   awq)        CMD=(vllm serve "$AWQ_MODEL"  "${CONTRACT[@]}" "${TUNED[@]}") ;;
   awq_mtp)    CMD=(vllm serve "$AWQ_MODEL"  "${CONTRACT[@]}" "${TUNED[@]}" "${SPEC[@]}") ;;
+  int8_mtp)   CMD=(vllm serve "$INT8_MODEL" "${INT8_NAMES[@]}" "${CONTRACT[@]}" "${TUNED[@]}" "${SPEC[@]}") ;;
+  int8)       CMD=(vllm serve "$INT8_MODEL" "${INT8_NAMES[@]}" "${CONTRACT[@]}" "${TUNED[@]}") ;;
   *) echo "unknown profile: $PROFILE" >&2; exit 1 ;;
 esac
 
