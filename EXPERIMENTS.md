@@ -49,10 +49,10 @@ Fill it as you go; the pitch "numbers vs baseline" slide comes straight from thi
 | 25 | 10-25 08:41 | INT8 + MTP2 + budget 2048 | shortest-prompt-first s64 / newest-first **s72** / s64 restores x2 | 400 W | local 300 | 1.00 | | .43 / **.58** / .51, .46 | 41 / **46** / 37, 37 | | on time 212 / **249** / 241, 243. Shortest-first: best TTFT tail (17x SLO) but fewest on time — long prompts miss their deadline when pushed back. 72 seqs: best peak share with TPOT still < 50. Next Final: 72 seqs |
 | 25F | 10-25 09:05 | INT8 + MTP2 + budget 2048 | **72 seqs** | 400 W | **grader FINAL** | 1.00 | 3.96x | **0.98** | **34** | **99.7** | 295/300, 152 J/req; grader TPOT 34 ms vs 46 ms locally, so the grader has more decode headroom than our harness. Next: 80 seqs |
 | 26F | 10-25 09:17 | INT8 + MTP2 + budget 2048 | **80 seqs** | 400 W | **grader FINAL** | 1.00 | 3.76x | 0.98 | 36 | 99.6 | 294/300, 160 J/req: no peak gain over 72, slightly more energy. 72 stays best; remaining slots re-run 72 |
-| 27 | 10-25 09:37 | INT8 + MTP2, 72 seqs | thinking budget **1536** (planned for the 10:xx slot) | 400 W | grader FINAL (pending) | | | | | | last two slots: one on budget 1536 (fewer chains reaching the 8,192-token limit), one repeat of the 99.7 config |
+| 27F | 10-25 10:22 | INT8 + MTP2, 72 seqs | thinking budget **1536** | 400 W | **grader FINAL** | 1.00 | **4.54x** | **0.99** | 35 | **99.8** | 298/300, **134 J/req**, R 1.018. Tighter cap: lighter peak, fewer chains reaching the 8,192-token limit. Last slot: repeat |
 
-## Summary: best Final 99.7
+## Summary: best Final 99.8
 
-Run 14: our INT8 W8A8 model + MTP2, 72 concurrent sequences, prefill budget 2048, long-prefill threshold 1024,
-newest-first priority, thinking budget 2048, prefix caching, 400 W. A 1.00 (R 1.025), sE 1.00 (3.96x),
-sT 0.98, sL 1.00, 295/300 within SLO, 152 J/request, p95 TTFT 1.51 s, p95 TPOT 34 ms.
+Run 16: our INT8 W8A8 model + MTP2, 72 concurrent sequences, prefill budget 2048, long-prefill threshold 1024,
+newest-first priority, thinking budget 1536, prefix caching, 400 W. A 1.00 (R 1.018), sE 1.00 (4.54x),
+sT 0.99, sL 1.00, 298/300 within SLO, 134 J/request, p95 TTFT 1.47 s, p95 TPOT 35 ms.

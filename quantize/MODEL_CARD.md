@@ -32,7 +32,7 @@ vllm serve <this repo> --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --enable-prefix-caching --language-model-only \
   --speculative-config '{"method":"mtp","num_speculative_tokens":2}' \
   --scheduling-policy priority --middleware newest_first.NewestFirst
-# plus a 2048-token thinking budget per request (vLLM thinking_token_budget, set by our middleware;
+# plus a 1536-token thinking budget per request (vLLM thinking_token_budget, set by our middleware;
 # organizer-approved). Middleware and full setup: see the GitHub repo.
 ```
 
@@ -42,4 +42,5 @@ GreenMind results with this model (single A100 40GB):
 |---|---|---|---|---|---|---|
 | Final, no thinking cap, 64 seqs | 95.9 | 279/300 | 201 | 1.26 s | 33 ms | 1.00 |
 | Final, thinking budget 2048, 64 seqs | 98.6 | 286/300 | 154 | 1.72 s | 36 ms | 1.00 |
-| **Final, thinking budget 2048, 72 seqs (best)** | **99.7** | **295/300** | **152** | 1.51 s | 34 ms | **1.00** |
+| Final, thinking budget 2048, 72 seqs | 99.7 | 295/300 | 152 | 1.51 s | 34 ms | 1.00 |
+| **Final, thinking budget 1536, 72 seqs (best)** | **99.8** | **298/300** | **134** | 1.47 s | 35 ms | **1.00** |

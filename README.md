@@ -11,7 +11,7 @@ Earlier runs used the organizer-provided originals —
 
 ## Result
 
-**Best Final score: S = 99.7** (295/300 requests on time, accuracy factor 1.00, 3.96x the baseline's on-time answers per joule)
+**Best Final score: S = 99.8** (298/300 requests on time, accuracy factor 1.00, 4.54x the baseline's on-time answers per joule)
 with our own **INT8 W8A8** quantization of the model: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 
 Every grader **Final** submission (300 requests), in order:
@@ -32,7 +32,9 @@ Every grader **Final** submission (300 requests), in order:
 | 11 | #8 + thinking budget 1536 tokens | 48.1 | 1.00 | 0.81 | 0.43 | 0.11 | 2.44x | 152 | 45.6 s | 51 ms | 181/300 |
 | 12 | Our INT8 W8A8 model + MTP2, 64 seqs, prefill 2048, long-prefill threshold 1024, newest-first, no thinking cap | 95.9 | 1.00 | 0.95 | 0.94 | 1.00 | 2.84x | 201 | 1.3 s | 33 ms | 279/300 |
 | 13 | #12 + thinking budget 2048 tokens | 98.6 | 1.00 | 1.00 | 0.93 | 1.00 | 3.80x | 154 | 1.7 s | 36 ms | 286/300 |
-| 14 | **#13 with 72 concurrent sequences (best)** | **99.7** | **1.00** | **1.00** | **0.98** | **1.00** | **3.96x** | **152** | 1.5 s | 34 ms | **295/300** |
+| 14 | #13 with 72 concurrent sequences | 99.7 | 1.00 | 1.00 | 0.98 | 1.00 | 3.96x | 152 | 1.5 s | 34 ms | 295/300 |
+| 15 | #14 with 80 concurrent sequences | 99.6 | 1.00 | 1.00 | 0.98 | 1.00 | 3.76x | 160 | 1.6 s | 36 ms | 294/300 |
+| 16 | **#14 with thinking budget 1536 (best)** | **99.8** | **1.00** | **1.00** | **0.99** | **1.00** | **4.54x** | **134** | 1.5 s | 35 ms | **298/300** |
 
 Runs 4-6 each looked better than #3 in a single local run and lost on the grader; why is in [FAILED.md](FAILED.md).
 Grader run-to-run noise (about ±10% energy, ±20 on-time requests) is larger than those effects. From then on we
@@ -53,7 +55,7 @@ On the lighter 100-request Validation trace (no overload) the AWQ + MTP setup wi
 48.7 (1.74x). The accuracy factor stays at about 1.00 on every run (R 0.96-1.05): 4-bit weights cost nothing
 measurable on the grader's six classes.
 
-## Final serving command (run 14, S = 99.7)
+## Final serving command (run 16, S = 99.8)
 
 ```bash
 # 1. Build the INT8 W8A8 model from the official BF16 weights (data-free, ~1 min on CPU; separate venv with llm-compressor)
@@ -61,7 +63,7 @@ measurable on the grader's six classes.
 #    or download it: https://huggingface.co/aungthuhein-dev/MANGO1.5-Qwen3.5-9B-W8A8-INT8
 
 # 2. Serve it (GPU at its default 400 W limit)
-THINK_BUDGET=2048 VLLM_USE_FLASHINFER_SAMPLER=0 PYTHONPATH=serve \
+THINK_BUDGET=1536 VLLM_USE_FLASHINFER_SAMPLER=0 PYTHONPATH=serve \
 vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --served-model-name MANGO1.5-Qwen3.5-9B-W8A8-INT8 CMKL/MANGO1.5-Qwen3.5-9B --host 0.0.0.0 --port 8000 \
   --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 \
@@ -72,8 +74,8 @@ vllm serve ~/models/MANGO1.5-Qwen3.5-9B-W8A8-INT8 \
   --scheduling-policy priority --middleware newest_first.NewestFirst
 ```
 
-Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=72 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=2048 ./serve/serve.sh int8_mtp`.
-vLLM 0.32.0 (`serve/install.sh`). `THINK_BUDGET=2048` makes the middleware set vLLM's `thinking_token_budget` on each request
+Same thing via our script: `PREFIX_CACHE=1 MAX_SEQS=72 BATCHED_TOKENS=2048 LONG_PREFILL=1024 SCHED=newest THINK_BUDGET=1536 ./serve/serve.sh int8_mtp`.
+vLLM 0.32.0 (`serve/install.sh`). `THINK_BUDGET=1536` makes the middleware set vLLM's `thinking_token_budget` on each request
 (organizer-approved cap; thinking stays on). Run 12 (95.9) was the same without the cap.
 
 **Why INT8 was the breakthrough.** Every AWQ setup was capped by decode speed: AWQ stores 4-bit weights but multiplies in
@@ -91,6 +93,9 @@ full energy marks) and *raised* accuracy (R 1.063, 93.3%): the cap stops the lon
 **72 concurrent sequences (run 14).** With the backlog gone, the only factor below full marks was the peak share
 (sT 0.93). Raising concurrency from 64 to 72 lifted it to 0.98 (295/300 on time) with p95 TPOT still 34 ms.
 Shortest-prompt-first scheduling was tested locally and lost (long prompts miss their deadline when pushed back).
+
+**Thinking budget 1536 (run 16).** A tighter cap on the 72-sequence INT8 config cut energy to 134 J/request (4.54x)
+and lifted the peak share to 0.99 (298/300 on time) with accuracy unchanged (R 1.018).
 
 ## Why it works
 

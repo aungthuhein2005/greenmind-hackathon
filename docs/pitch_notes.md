@@ -6,7 +6,7 @@ delivery 20%. Numbers are from the grader's **Final** track (300 requests) unles
 ## One-sentence story
 "An LLM server that falls behind wastes energy on answers that arrive too late. We fixed the queue with
 newest-first scheduling, cut runaway reasoning with an approved thinking cap, and built our own INT8 model for
-the A100's INT8 tensor cores — taking the score from 0 to 99.7 on the same GPU."
+the A100's INT8 tensor cores — taking the score from 0 to 99.8 on the same GPU."
 
 ## The progression (the spine of the talk)
 
@@ -17,9 +17,10 @@ the A100's INT8 tensor cores — taking the score from 0 to 99.7 on the same GPU
 | + thinking budget 1024 (organizer-approved) | 48.6 | 205/300 | 2.52x | fewer tokens per answer; accuracy dipped (A 0.90) |
 | **Our INT8 W8A8 model** + MTP2, 64 seqs | 95.9 | 279/300 | 2.84x | INT8 tensor cores: the backlog disappears |
 | + thinking budget 2048 | 98.6 | 286/300 | 3.80x | energy at full marks, accuracy *up* (R 1.063) |
-| **+ 72 concurrent sequences** | **99.7** | **295/300** | **3.96x** | peak share 0.93 -> 0.98 |
+| + 72 concurrent sequences | 99.7 | 295/300 | 3.96x | peak share 0.93 -> 0.98 |
+| **+ thinking budget 1536** | **99.8** | **298/300** | **4.54x** | peak share 0.99, 134 J/request |
 
-Best run: A 1.00, sE 1.00, sT 0.98, sL 1.00; p95 first token 1.5 s, p95 time per token 34 ms, 152 J/request.
+Best run: A 1.00, sE 1.00, sT 0.99, sL 1.00; p95 first token 1.5 s, p95 time per token 35 ms, 134 J/request.
 
 ## Slide flow (~10 slides, ~40 s each)
 
@@ -34,17 +35,17 @@ Best run: A 1.00, sE 1.00, sT 0.98, sL 1.00; p95 first token 1.5 s, p95 time per
    cores (~2x the 16-bit rate) and no FP8. We built a data-free INT8 W8A8 model from the official BF16 weights
    with llm-compressor (MLP, attention and Gated-DeltaNet projections in INT8; gates, lm_head, MTP head in BF16).
    41.7 -> 95.9; p95 first token 32 s -> 1.3 s.
-6. **Fix 4 — thinking cap.** Organizer-approved `thinking_token_budget` of 2048: thinking stays on, runaway chains
-   stop. Energy -23% (201 -> 154 J/request), accuracy *rose* (R 1.063) because fewer answers hit the 8,192-token
-   limit. 95.9 -> 98.6. Then 72 concurrent sequences: 99.7.
+6. **Fix 4 — thinking cap.** Organizer-approved `thinking_token_budget`: thinking stays on, runaway chains stop.
+   Budget 2048: energy -23% (201 -> 154 J/request), accuracy *rose* (R 1.063) because fewer answers hit the 8,192-token
+   limit; 95.9 -> 98.6. Then 72 concurrent sequences: 99.7. Then budget 1536: 134 J/request, 298/300 on time: **99.8**.
 7. **Results.** The progression table above, as a bar chart.
 8. **What didn't work** (judges score this): power caps (250 W -> 0.0), prefix caching off (-19 points), big
    concurrency on AWQ (34-42 on time), deadline-aware scheduler, shortest-prompt-first (fewer on time), thinking
    cap 512/256 (math accuracy, spill into the answer), 80 seqs (no gain over 72). All in FAILED.md.
 9. **Sustainability at scale** (state assumptions on the slide):
-   - 3.96x on-time answers per joule = **~75% less energy per useful answer** vs the baseline.
-   - Per on-time answer: ours ≈ 155 J (152 J/request ÷ 98.3% on time) vs ≈ 614 J for the baseline.
-   - For 1 million on-time answers a day: ~128 kWh/day saved, **~47 MWh/year**; at ~0.4 kg CO2/kWh (Thai grid,
+   - 4.54x on-time answers per joule = **~78% less energy per useful answer** vs the baseline.
+   - Per on-time answer: ours ≈ 135 J (134 J/request ÷ 99.3% on time) vs ≈ 612 J for the baseline.
+   - For 1 million on-time answers a day: ~132 kWh/day saved, **~48 MWh/year**; at ~0.4 kg CO2/kWh (Thai grid,
      approximate) ≈ **19 t CO2/year** per million daily answers.
    - Same GPU, a model derived from the official weights, software only; accuracy at the baseline level (Thai included).
 10. **Takeaways.** (1) Measure joules per on-time answer. (2) Match the number format to the GPU — INT8 on Ampere.
@@ -79,5 +80,5 @@ log". We did exactly that: EXPERIMENTS.md (every run) and FAILED.md (every failu
   complete with the same accuracy. With INT8 the backlog is gone and p95 first token is 1.5 s.
 - *Why did the power cap fail?* MTP verifies several tokens per step, so decode is compute-bound; lower clocks
   slowed every token past the 50 ms limit.
-- *What's left?* Only the peak share (sT 0.98, ~5 late requests). Grader run-to-run noise (99.6 vs 99.7 at
+- *What's left?* Only the peak share (sT 0.99, 2 late requests). Grader run-to-run noise (99.6 vs 99.7 at
   near-identical settings) is about the size of the remaining gap.
